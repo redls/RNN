@@ -1,0 +1,13 @@
+# depslib dependency file v1.0
+1481585352 source:/home/laura/Part II Project/partIIProject/RNN/main.cpp
+	<iostream>
+
+1481675597 source:/home/laura/Part II Project/partIIProject/RNN/Node.cpp
+	"Node.h"
+	<cstdio>
+	<vector>
+
+1481675648 /home/laura/Part II Project/partIIProject/RNN/Node.h
+	<cstdio>
+	<vector>
+
