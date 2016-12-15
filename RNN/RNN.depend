@@ -1,6 +1,7 @@
 # depslib dependency file v1.0
-1481585352 source:/home/laura/Part II Project/partIIProject/RNN/main.cpp
+1481763148 source:/home/laura/Part II Project/partIIProject/RNN/main.cpp
 	<iostream>
+	"Vocabulary.h"
 
 1481675597 source:/home/laura/Part II Project/partIIProject/RNN/Node.cpp
 	"Node.h"
@@ -10,4 +11,26 @@
 1481675648 /home/laura/Part II Project/partIIProject/RNN/Node.h
 	<cstdio>
 	<vector>
+
+1481675775 source:/home/laura/Part II Project/partIIProject/RNN/Tree.cpp
+	"Tree.h"
+	<cstdio>
+	<vector>
+
+1481675351 /home/laura/Part II Project/partIIProject/RNN/Tree.h
+	"Node.h"
+	<cstdio>
+	<vector>
+
+1481761187 /home/laura/Part II Project/partIIProject/RNN/Vocabulary.h
+	<cstdio>
+	<unordered_map>
+	<vector>
+
+1481763100 source:/home/laura/Part II Project/partIIProject/RNN/Vocabulary.cpp
+	<cstdio>
+	<random>
+	<fstream>
+	<iostream>
+	"Vocabulary.h"
 
