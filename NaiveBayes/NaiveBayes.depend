@@ -1,0 +1,40 @@
+# depslib dependency file v1.0
+1481926384 source:/home/laura/Part II Project/partIIProject/NaiveBayes/Dictionary.cpp
+	"Dictionary.h"
+	<iostream>
+	<fstream>
+	<cstdio>
+	<string.h>
+
+1481925236 /home/laura/Part II Project/partIIProject/NaiveBayes/Dictionary.h
+	<unordered_map>
+	<cstdio>
+
+1481931556 source:/home/laura/Part II Project/partIIProject/NaiveBayes/main.cpp
+	<iostream>
+	"Dictionary.h"
+	"SentimentLabels.h"
+	"DatasetSentences.h"
+
+1481926271 /home/laura/Part II Project/partIIProject/NaiveBayes/SentimentLabels.h
+	<unordered_map>
+	<cstdio>
+
+1481929497 source:/home/laura/Part II Project/partIIProject/NaiveBayes/SentimentLabels.cpp
+	"SentimentLabels.h"
+	<iostream>
+	<fstream>
+	<cstdio>
+	<string.h>
+
+1481931528 source:/home/laura/Part II Project/partIIProject/NaiveBayes/DatasetSentences.cpp
+	"DatasetSentences.h"
+	<iostream>
+	<fstream>
+	<cstdio>
+	<string.h>
+
+1481931522 /home/laura/Part II Project/partIIProject/NaiveBayes/DatasetSentences.h
+	<unordered_map>
+	<cstdio>
+
