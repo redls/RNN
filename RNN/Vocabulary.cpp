@@ -44,7 +44,7 @@ Vocabulary::Vocabulary() {
                 if (c ==  ' ') {
                     if (!containsWord(word)) {
                         vector<double> vec = createRandomDistributions();
-                        cout<<word<<" "<<endl;
+                        //cout<<word<<" "<<endl;
                         vocabulary.insert(make_pair(word, vec));
                     }
                     word.clear();
@@ -68,6 +68,13 @@ vector<double> Vocabulary::getWordRepresentation(string word) {
     unordered_map<string, vector<double>>::const_iterator found_iter = vocabulary.find(word);
     if (found_iter == vocabulary.end()) {
         return aux;
-        }
+    }
     return found_iter->second;
+}
+
+void Vocabulary::addNewWord(string word) {
+    if (this->containsWord(word)) return;
+    vector<double> vec = createRandomDistributions();
+    vocabulary.insert(make_pair(word, vec));
+    return;
 }

@@ -3,12 +3,12 @@
 	<iostream>
 	"Vocabulary.h"
 
-1481675597 source:/home/laura/Part II Project/partIIProject/RNN/Node.cpp
+1481972415 source:/home/laura/Part II Project/partIIProject/RNN/Node.cpp
 	"Node.h"
 	<cstdio>
 	<vector>
 
-1481675648 /home/laura/Part II Project/partIIProject/RNN/Node.h
+1481972385 /home/laura/Part II Project/partIIProject/RNN/Node.h
 	<cstdio>
 	<vector>
 
@@ -22,15 +22,38 @@
 	<cstdio>
 	<vector>
 
-1481761187 /home/laura/Part II Project/partIIProject/RNN/Vocabulary.h
+1481986757 /home/laura/Part II Project/partIIProject/RNN/Vocabulary.h
 	<cstdio>
 	<unordered_map>
 	<vector>
 
-1481763100 source:/home/laura/Part II Project/partIIProject/RNN/Vocabulary.cpp
+1481973224 source:/home/laura/Part II Project/partIIProject/RNN/Vocabulary.cpp
 	<cstdio>
 	<random>
 	<fstream>
 	<iostream>
+	"Vocabulary.h"
+
+1481982056 source:/home/laura/Part II Project/partIIProject/RNN/DatasetSentences.cpp
+	"DatasetSentences.h"
+	<iostream>
+	<fstream>
+	<cstdio>
+	<string.h>
+
+1481982082 /home/laura/Part II Project/partIIProject/RNN/DatasetSentences.h
+	<cstdio>
+	<vector>
+	<unordered_map>
+
+1481986986 source:/home/laura/Part II Project/partIIProject/RNN/ParseASentence.cpp
+	<cstdio>
+	"ParseASentence.h"
+
+1481986687 /home/laura/Part II Project/partIIProject/RNN/ParseASentence.h
+	<cstdio>
+	<vector>
+	<string>
+	"Node.h"
 	"Vocabulary.h"
 

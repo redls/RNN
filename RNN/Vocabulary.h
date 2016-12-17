@@ -4,7 +4,7 @@
 
 using namespace std;
 
-/*
+/**
  *  Class which keeps track of the words that appear in the data set.
  */
 
@@ -15,4 +15,5 @@ class Vocabulary {
         Vocabulary();
         vector<double> getWordRepresentation(string word);
         bool containsWord(string word);
+        void addNewWord(string word);
 };

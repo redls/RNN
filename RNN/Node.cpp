@@ -4,7 +4,7 @@
 
 using namespace std;
 
-/*
+/**
  * Implementation of the methods defined for a node which is used in the Recursive Neural Network.
  */
 

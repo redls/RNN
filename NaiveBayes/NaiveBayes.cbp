@@ -32,6 +32,14 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="DatasetSentences.cpp" />
+		<Unit filename="DatasetSentences.h" />
+		<Unit filename="Dictionary.cpp" />
+		<Unit filename="Dictionary.h" />
+		<Unit filename="SentimentLabels.cpp" />
+		<Unit filename="SentimentLabels.h" />
+		<Unit filename="TestsetSentences.cpp" />
+		<Unit filename="TestsetSentences.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
