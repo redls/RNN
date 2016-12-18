@@ -2,19 +2,8 @@
 #include <random>
 #include <fstream>
 #include <iostream>
-#include "Vocabulary.h"
+#include "ParseASentence.h"
 using namespace std;
-
-vector<double> createRandomDistributions() {
-    random_device rand;
-    mt19937 generator(rand());
-    uniform_real_distribution<double> distribution(-0.0001, 0.0001);
-    vector<double> wordRep;
-    for(int i = 0;i < 25; i++) {
-        wordRep.push_back(distribution(generator));
-    }
-    return wordRep;
-}
 
 bool Vocabulary::containsWord(string word) {
     unordered_map<string, vector<double>>::const_iterator found_iter = vocabulary.find(word);
@@ -43,8 +32,8 @@ Vocabulary::Vocabulary() {
             if (text) {
                 if (c ==  ' ') {
                     if (!containsWord(word)) {
-                        vector<double> vec = createRandomDistributions();
-                        //cout<<word<<" "<<endl;
+                        vector<double> vec = createRandomDistributions(25);
+                        //cout<<word<<" "<<endl;ſ
                         vocabulary.insert(make_pair(word, vec));
                     }
                     word.clear();
@@ -55,7 +44,7 @@ Vocabulary::Vocabulary() {
         }
         // For the last word.
         if (!containsWord(word)) {
-                        vector<double> vec = createRandomDistributions();
+                        vector<double> vec = createRandomDistributions(25);
                         cout<<word<<" "<<endl;
                         vocabulary.insert(make_pair(word, vec));
                     }
@@ -74,7 +63,7 @@ vector<double> Vocabulary::getWordRepresentation(string word) {
 
 void Vocabulary::addNewWord(string word) {
     if (this->containsWord(word)) return;
-    vector<double> vec = createRandomDistributions();
+    vector<double> vec = createRandomDistributions(25);
     vocabulary.insert(make_pair(word, vec));
     return;
 }

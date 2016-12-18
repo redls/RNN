@@ -1,7 +1,8 @@
 # depslib dependency file v1.0
-1481763148 source:/home/laura/Part II Project/partIIProject/RNN/main.cpp
+1482096069 source:/home/laura/Part II Project/partIIProject/RNN/main.cpp
 	<iostream>
-	"Vocabulary.h"
+	<utility>
+	"ParseASentence.h"
 
 1481972415 source:/home/laura/Part II Project/partIIProject/RNN/Node.cpp
 	"Node.h"
@@ -27,12 +28,12 @@
 	<unordered_map>
 	<vector>
 
-1481973224 source:/home/laura/Part II Project/partIIProject/RNN/Vocabulary.cpp
+1482095027 source:/home/laura/Part II Project/partIIProject/RNN/Vocabulary.cpp
 	<cstdio>
 	<random>
 	<fstream>
 	<iostream>
-	"Vocabulary.h"
+	"ParseASentence.h"
 
 1481982056 source:/home/laura/Part II Project/partIIProject/RNN/DatasetSentences.cpp
 	"DatasetSentences.h"
@@ -46,14 +47,20 @@
 	<vector>
 	<unordered_map>
 
-1481986986 source:/home/laura/Part II Project/partIIProject/RNN/ParseASentence.cpp
+1482095609 source:/home/laura/Part II Project/partIIProject/RNN/ParseASentence.cpp
 	<cstdio>
+	<random>
 	"ParseASentence.h"
 
-1481986687 /home/laura/Part II Project/partIIProject/RNN/ParseASentence.h
+1482094960 /home/laura/Part II Project/partIIProject/RNN/ParseASentence.h
 	<cstdio>
 	<vector>
 	<string>
-	"Node.h"
+	"Tree.h"
 	"Vocabulary.h"
+
+1482009477 source:/home/laura/Part II Project/partIIProject/RNN/DatasetSentencesTrees.cpp
+	<cstdio>
+	<vector>
+	<unordered_map>
 
