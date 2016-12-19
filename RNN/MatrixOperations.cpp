@@ -46,3 +46,21 @@ vector<double> concatenateTwoVectors(vector<double> vec1, vector<double> vec2) {
     }
     return result;
 }
+
+// Apply the tanh function to every element in the given aray and return a vector with the results.
+vector<double> applyTanhElementWise(vector<double> vec) {
+    vector<double> result;
+     for (int i = 0; i < vec.size(); i++) {
+        result.push_back(tanh(vec[i]));
+    }
+    return result;
+}
+
+// Perform inner product of the 2 vectors and return the result back.
+double vectorInnerProduct(vector<double> vec1, vector<double> vec2) {
+    double result;
+    for (int i = 0; i < vec1.size(); i++) {
+        result = result + vec1[i]*vec2[i];
+    }
+    return result;
+}

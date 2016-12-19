@@ -1,8 +1,9 @@
 # depslib dependency file v1.0
-1482096069 source:/home/laura/Part II Project/partIIProject/RNN/main.cpp
+1482154369 source:/home/laura/Part II Project/partIIProject/RNN/main.cpp
 	<iostream>
 	<utility>
 	"ParseASentence.h"
+	"MatrixOperations.h"
 
 1481972415 source:/home/laura/Part II Project/partIIProject/RNN/Node.cpp
 	"Node.h"
@@ -13,12 +14,12 @@
 	<cstdio>
 	<vector>
 
-1481675775 source:/home/laura/Part II Project/partIIProject/RNN/Tree.cpp
+1482154423 source:/home/laura/Part II Project/partIIProject/RNN/Tree.cpp
 	"Tree.h"
 	<cstdio>
 	<vector>
 
-1481675351 /home/laura/Part II Project/partIIProject/RNN/Tree.h
+1482154406 /home/laura/Part II Project/partIIProject/RNN/Tree.h
 	"Node.h"
 	<cstdio>
 	<vector>
@@ -63,4 +64,13 @@
 	<cstdio>
 	<vector>
 	<unordered_map>
+
+1482150993 /home/laura/Part II Project/partIIProject/RNN/MatrixOperations.h
+	<cstdio>
+	<vector>
+	<math.h>
+
+1482151051 source:/home/laura/Part II Project/partIIProject/RNN/MatrixOperations.cpp
+	<cstdio>
+	"MatrixOperations.h"
 

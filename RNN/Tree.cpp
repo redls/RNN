@@ -13,3 +13,16 @@ Tree::Tree(Node x) {
 void Tree::addNewNodeToTree(Node x) {
 
 }
+
+vector<double> Tree::getRootRepresentation() {
+    vector<double> rootRepresentation = this->node.getNode();
+    return rootRepresentation;
+}
+
+void Tree::setLeftTree(Tree* x) {
+    this->left = x;
+}
+
+void Tree::setRightTree(Tree* x) {
+    this->right = x;
+}
