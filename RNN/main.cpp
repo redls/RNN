@@ -60,11 +60,41 @@ void createTree(string sentence) {
         }
         trees.pop_back();
         pairedElem.push_back(make_pair(left,right));
+        numberOfWords--;
     }
+    //Tree aux = *trees[0];
+    double score = vectorInnerProduct(weightScore, trees[0]->getRootRepresentation());
+    cout<<score<<endl;
+
 }
 
 int main()
 {
+    //createTree("This was an amazing movie.");
+    //createTree("This was an amazing movie.");
+    //createTree("This was an awful movie.");
+    vector<vector<double>> matrix;
+    for (int i = 0; i < 4; i++) {
+        vector<double> vec;
+        for (int j = 0; j < 4; j++) {
+        vec.push_back(i + j);
+        }
+        matrix.push_back(vec);
+    }
+    vector<vector<double>> transpose = getHadamardProduct(matrix, matrix);
+    for(int i = 0; i < 4; i++) {
+        for(int j = 0; j < 4; j++)  {
+        cout<<matrix[i][j]<< " ";
+        }
+        cout<<endl;
+    }
+    cout<<endl;
+    for(int i = 0; i < transpose.size(); i++) {
+        for(int j = 0; j < transpose[0].size(); j++)  {
+        cout<<transpose[i][j]<< " ";
+        }
+        cout<<endl;
+    }
     cout << "Hello world!" << endl;
     return 0;
 }

@@ -45,7 +45,7 @@ Vocabulary::Vocabulary() {
         // For the last word.
         if (!containsWord(word)) {
                         vector<double> vec = createRandomDistributions(25);
-                        cout<<word<<" "<<endl;
+                      //  cout<<word<<" "<<endl;
                         vocabulary.insert(make_pair(word, vec));
                     }
         word.clear();
