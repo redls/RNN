@@ -1,9 +1,9 @@
 # depslib dependency file v1.0
-1483098017 source:/home/laura/Part II Project/partIIProject/RNN/main.cpp
+1483784399 source:/home/laura/Part II Project/partIIProject/RNN/main.cpp
 	<iostream>
 	<utility>
-	"ParseASentence.h"
 	"MatrixOperations.h"
+	"SentenceTree.h"
 
 1481972415 source:/home/laura/Part II Project/partIIProject/RNN/Node.cpp
 	"Node.h"
@@ -14,12 +14,13 @@
 	<cstdio>
 	<vector>
 
-1482154423 source:/home/laura/Part II Project/partIIProject/RNN/Tree.cpp
+1483744603 source:/home/laura/Part II Project/partIIProject/RNN/Tree.cpp
 	"Tree.h"
 	<cstdio>
 	<vector>
+	<iostream>
 
-1482154406 /home/laura/Part II Project/partIIProject/RNN/Tree.h
+1483743977 /home/laura/Part II Project/partIIProject/RNN/Tree.h
 	"Node.h"
 	<cstdio>
 	<vector>
@@ -48,12 +49,12 @@
 	<vector>
 	<unordered_map>
 
-1482095609 source:/home/laura/Part II Project/partIIProject/RNN/ParseASentence.cpp
+1483432895 source:/home/laura/Part II Project/partIIProject/RNN/ParseASentence.cpp
 	<cstdio>
 	<random>
 	"ParseASentence.h"
 
-1482094960 /home/laura/Part II Project/partIIProject/RNN/ParseASentence.h
+1483534958 /home/laura/Part II Project/partIIProject/RNN/ParseASentence.h
 	<cstdio>
 	<vector>
 	<string>
@@ -65,12 +66,23 @@
 	<vector>
 	<unordered_map>
 
-1483099104 /home/laura/Part II Project/partIIProject/RNN/MatrixOperations.h
+1483566038 /home/laura/Part II Project/partIIProject/RNN/MatrixOperations.h
 	<cstdio>
 	<vector>
 	<math.h>
 
-1483100319 source:/home/laura/Part II Project/partIIProject/RNN/MatrixOperations.cpp
+1483566033 source:/home/laura/Part II Project/partIIProject/RNN/MatrixOperations.cpp
 	<cstdio>
 	"MatrixOperations.h"
+
+1483785519 source:/home/laura/Part II Project/partIIProject/RNN/SentenceTree.cpp
+	"SentenceTree.h"
+	"MatrixOperations.h"
+	<string>
+	<cstdio>
+	<iostream>
+
+1483535019 /home/laura/Part II Project/partIIProject/RNN/SentenceTree.h
+	"ParseASentence.h"
+	<string>
 

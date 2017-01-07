@@ -1,12 +1,13 @@
 #include "Tree.h"
 #include<cstdio>
 #include<vector>
+#include<iostream>
 
 using namespace std;
 
 Tree::Tree(Node x) {
-    left = NULL;
-    right = NULL;
+    left = nullptr;
+    right = nullptr;
     node = Node(x.getNode());
 }
 
@@ -25,4 +26,32 @@ void Tree::setLeftTree(Tree* x) {
 
 void Tree::setRightTree(Tree* x) {
     this->right = x;
+}
+
+Tree* Tree::getLeftTree() {
+    return this->left;
+}
+
+Tree* Tree::getRightTree() {
+    return this->right;
+}
+
+// Recursive method for printing a tree.
+void printTree(Tree* t) {
+    if (t == nullptr) return;
+    printTree(t->getLeftTree());
+    vector<double> nodeRep = t->getRootRepresentation();
+    for (int i = 0; i < nodeRep.size();i++) {
+        cout<<nodeRep[i]<<" ";
+    }
+    cout<<endl;
+    printTree(t->getRightTree());
+
+}
+
+
+// Print the elements of the tree in-order.
+void Tree::inOrderTraversal() {
+    Tree* t = this;
+    printTree(t);
 }

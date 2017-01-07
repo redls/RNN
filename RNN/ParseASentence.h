@@ -1,7 +1,6 @@
 #include<cstdio>
 #include<vector>
 #include<string>
-//#include "Node.h"
 #include "Tree.h"
 #include "Vocabulary.h"
 

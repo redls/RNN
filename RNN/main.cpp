@@ -1,7 +1,8 @@
 #include <iostream>
 #include <utility>
-#include "ParseASentence.h"
+//#include "ParseASentence.h"
 #include "MatrixOperations.h"
+#include "SentenceTree.h"
 
 using namespace std;
 
@@ -35,8 +36,8 @@ void createTree(string sentence) {
         maxScore = vectorInnerProduct(weightScore, afterTanh);
         int left = 0;
         int right = 1;
-        for(int i = 2; i < trees.size(); i++) {
-           concatenation = concatenateTwoVectors(trees[i-1]->getRootRepresentation(),
+        for(int i = 1; i < trees.size(); i++) {
+            concatenation = concatenateTwoVectors(trees[i-1]->getRootRepresentation(),
                     trees[i]->getRootRepresentation());
             product = matrixMultplication(weights, concatenation);
             afterTanh = applyTanhElementWise(product);
@@ -70,31 +71,31 @@ void createTree(string sentence) {
 
 int main()
 {
-    //createTree("This was an amazing movie.");
+    createTree("This was an amazing movie.");
     //createTree("This was an amazing movie.");
     //createTree("This was an awful movie.");
-    vector<vector<double>> matrix;
-    for (int i = 0; i < 4; i++) {
-        vector<double> vec;
-        for (int j = 0; j < 4; j++) {
-        vec.push_back(i + j);
-        }
-        matrix.push_back(vec);
+    string treeText = "6|6|5|5|7|7|0";
+    string sente = "Effective but too-tepid biopic";
+    Tree* t = constructTargetTree(treeText, sente);
+    t->inOrderTraversal();
+    /*int numberOfNodes = 0;
+    for (char & c: treeText) {
+        if (c == '|') numberOfNodes++;
     }
-    vector<vector<double>> transpose = getHadamardProduct(matrix, matrix);
-    for(int i = 0; i < 4; i++) {
-        for(int j = 0; j < 4; j++)  {
-        cout<<matrix[i][j]<< " ";
+    numberOfNodes++;
+    int positions[numberOfNodes];
+    int number = 0;
+    int k = 0;
+    for (char & c: treeText) {
+        if (c != '|') number = number *10 + c - '0';
+        else {
+            positions[k] = number;
+            k++;
+            number = 0;
         }
-        cout<<endl;
     }
-    cout<<endl;
-    for(int i = 0; i < transpose.size(); i++) {
-        for(int j = 0; j < transpose[0].size(); j++)  {
-        cout<<transpose[i][j]<< " ";
-        }
-        cout<<endl;
-    }
+    positions[k] = number; */
+   // for (int i = 0; i < numberOfNodes; i++)
     cout << "Hello world!" << endl;
     return 0;
 }

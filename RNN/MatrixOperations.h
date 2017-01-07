@@ -27,3 +27,4 @@ vector<vector<double>> getHadamardProduct(vector<vector<double>> matrix1, vector
 
 // Checks if the given matrices have the same number of lines and columns. This is for the Hadamard Product.
 bool checkIfTwoMatricesHaveTheSameDimesions(vector<vector<double>> matrix1, vector<vector<double>> matrix2);
+

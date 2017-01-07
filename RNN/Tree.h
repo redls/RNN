@@ -15,4 +15,9 @@ class Tree {
         vector<double> getRootRepresentation();
         void setLeftTree(Tree *x);
         void setRightTree(Tree *x);
+        Tree* getLeftTree();
+        Tree* getRightTree();
+
+        // Print the elements of the tree in in-order.
+        void inOrderTraversal();
 };

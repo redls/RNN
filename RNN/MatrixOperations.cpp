@@ -112,6 +112,7 @@ vector<vector<double>> getHadamardProduct(vector<vector<double>> matrix1, vector
     }
     int numberOfColumns = matrix1[0].size();
     int numberOfLines = matrix1.size();
+
     // Multiply the first line, in order to obtain the lines of the transpose matrix in order
     // to create the entry vectors for each line.
     for(int i = 0; i < numberOfLines; i++) {
@@ -123,3 +124,4 @@ vector<vector<double>> getHadamardProduct(vector<vector<double>> matrix1, vector
     }
     return result;
 }
+
