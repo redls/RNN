@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1483784399 source:/home/laura/Part II Project/partIIProject/RNN/main.cpp
+1483804370 source:/home/laura/Part II Project/partIIProject/RNN/main.cpp
 	<iostream>
 	<utility>
 	"MatrixOperations.h"
@@ -14,18 +14,18 @@
 	<cstdio>
 	<vector>
 
-1483744603 source:/home/laura/Part II Project/partIIProject/RNN/Tree.cpp
+1483801989 source:/home/laura/Part II Project/partIIProject/RNN/Tree.cpp
 	"Tree.h"
 	<cstdio>
 	<vector>
 	<iostream>
 
-1483743977 /home/laura/Part II Project/partIIProject/RNN/Tree.h
+1483801949 /home/laura/Part II Project/partIIProject/RNN/Tree.h
 	"Node.h"
 	<cstdio>
 	<vector>
 
-1481986757 /home/laura/Part II Project/partIIProject/RNN/Vocabulary.h
+1483792078 /home/laura/Part II Project/partIIProject/RNN/Vocabulary.h
 	<cstdio>
 	<unordered_map>
 	<vector>
@@ -75,14 +75,38 @@
 	<cstdio>
 	"MatrixOperations.h"
 
-1483785519 source:/home/laura/Part II Project/partIIProject/RNN/SentenceTree.cpp
+1483870733 source:/home/laura/Part II Project/partIIProject/RNN/SentenceTree.cpp
 	"SentenceTree.h"
 	"MatrixOperations.h"
 	<string>
 	<cstdio>
 	<iostream>
 
-1483535019 /home/laura/Part II Project/partIIProject/RNN/SentenceTree.h
+1483799599 /home/laura/Part II Project/partIIProject/RNN/SentenceTree.h
 	"ParseASentence.h"
+	"Dictionary.h"
+	"SentimentLabels.h"
 	<string>
+
+1483809581 source:/home/laura/Part II Project/partIIProject/RNN/SentimentLabels.cpp
+	"SentimentLabels.h"
+	<iostream>
+	<fstream>
+	<cstdio>
+	<string.h>
+
+1483786393 /home/laura/Part II Project/partIIProject/RNN/SentimentLabels.h
+	<unordered_map>
+	<cstdio>
+
+1483792148 source:/home/laura/Part II Project/partIIProject/RNN/Dictionary.cpp
+	"Dictionary.h"
+	<iostream>
+	<fstream>
+	<cstdio>
+	<string.h>
+
+1483786513 /home/laura/Part II Project/partIIProject/RNN/Dictionary.h
+	<unordered_map>
+	<cstdio>
 

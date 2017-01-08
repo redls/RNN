@@ -28,6 +28,10 @@ void Tree::setRightTree(Tree* x) {
     this->right = x;
 }
 
+void Tree::setRoot(Node x) {
+    this->node = x;
+}
+
 Tree* Tree::getLeftTree() {
     return this->left;
 }

@@ -1,4 +1,6 @@
 #include "ParseASentence.h"
+#include "Dictionary.h"
+#include "SentimentLabels.h"
 #include<string>
 using namespace std;
 
@@ -12,4 +14,4 @@ Tree* constructTreeForASentence(string sentence, vector<vector<double>> weights,
 
 
 // Given a string of digits and | symbols, return the target tree represented by that string.
-Tree* constructTargetTree(string treeText, string sentence);
+Tree* constructTargetTree(string treeText, string sentence, Dictionary* dictionary, SentimentLabels* sentimentLabels);

@@ -6,6 +6,7 @@ using namespace std;
 
 /**
  *  Class which keeps track of the words that appear in the data set.
+ *  It assings a vector to each word.
  */
 
 class Vocabulary {

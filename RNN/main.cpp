@@ -4,9 +4,12 @@
 #include "MatrixOperations.h"
 #include "SentenceTree.h"
 
+
 using namespace std;
 
-Vocabulary *vocab = new Vocabulary();
+Vocabulary* vocab = new Vocabulary();
+Dictionary* dictionary =  new Dictionary();
+SentimentLabels* sentimentLabels =  new SentimentLabels();
 
 vector<vector<double>> weights = initialiseWeigths(25);
 vector<double> weightScore = createRandomDistributions(25);
@@ -74,28 +77,10 @@ int main()
     createTree("This was an amazing movie.");
     //createTree("This was an amazing movie.");
     //createTree("This was an awful movie.");
-    string treeText = "6|6|5|5|7|7|0";
-    string sente = "Effective but too-tepid biopic";
-    Tree* t = constructTargetTree(treeText, sente);
+    string treeText = "13|12|11|8|8|9|10|9|10|11|12|13|0";
+    string sente = "But he somehow pulls it off .";
+    Tree* t = constructTargetTree(treeText, sente, dictionary, sentimentLabels);
     t->inOrderTraversal();
-    /*int numberOfNodes = 0;
-    for (char & c: treeText) {
-        if (c == '|') numberOfNodes++;
-    }
-    numberOfNodes++;
-    int positions[numberOfNodes];
-    int number = 0;
-    int k = 0;
-    for (char & c: treeText) {
-        if (c != '|') number = number *10 + c - '0';
-        else {
-            positions[k] = number;
-            k++;
-            number = 0;
-        }
-    }
-    positions[k] = number; */
-   // for (int i = 0; i < numberOfNodes; i++)
     cout << "Hello world!" << endl;
     return 0;
 }

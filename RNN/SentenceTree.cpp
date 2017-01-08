@@ -112,18 +112,73 @@ pair<int,int> findElementInArray(int a[], int length, int elem) {
     return result;
 }
 
+
+// Assign the labels of to the tree in a post-order way.
+string assignRightLabels(Tree* t, vector<string> words, Dictionary* dictionary, SentimentLabels* sentimentLabels, int &numberOfLeaves) {
+    if (t == nullptr) {
+        cout<<"I am null"<<endl;
+        return "";
+    }
+    // The current node is a leaf, so we compute its score by searching the word in the sentiment labels map.
+    if (t->getLeftTree() == nullptr && t->getRightTree() == nullptr) {
+    cout<<"*** "<< words[numberOfLeaves]<< numberOfLeaves<<endl;
+        long long phraseIndex = dictionary->getPhraseIndex(words[numberOfLeaves]);
+        double score = sentimentLabels->getSentimentScore(phraseIndex);
+        if (phraseIndex == -1) cout<<words[numberOfLeaves]<<" no found in the dictionary"<<endl;
+        if (score >= 0.5) {
+            // case when the word is positive.
+            vector<double> root = t->getRootRepresentation();
+            root[0] = 0;
+            root[1] = 1;
+            t->setRoot(root);
+        } else {
+            // case when the word is negative.
+            vector<double> root = t->getRootRepresentation();
+            root[0] = 1;
+            root[1] = 0;
+            t->setRoot(root);
+        }
+        numberOfLeaves++;
+        return words[numberOfLeaves - 1];
+    }
+
+    // The current node is an inner node, compute both left and right trees and then compute the value for the tree;
+    string left = assignRightLabels(t->getLeftTree(), words, dictionary, sentimentLabels, numberOfLeaves);
+    string right = assignRightLabels(t->getRightTree(), words, dictionary, sentimentLabels, numberOfLeaves);
+    string partialPhrase = left +" "+ right;
+    long long phraseIndex = dictionary->getPhraseIndex(partialPhrase);
+    if (phraseIndex == -1) cout<<partialPhrase<<" not found in the dictionary"<<endl;
+    double score = sentimentLabels->getSentimentScore(phraseIndex);
+    if (score >= 0.5) {
+        // case when the word is positive.
+        vector<double> root = t->getRootRepresentation();
+        root[0] = 0;
+        root[1] = 1;
+        t->setRoot(root);
+    } else {
+        // case when the word is negative.
+        vector<double> root = t->getRootRepresentation();
+        root[0] = 1;
+        root[1] = 0;
+        t->setRoot(root);
+    }
+    return partialPhrase;
+}
+
+
+// Construct the tree which is represented my the given array, a.
 Tree* getParentPointerTree(int a[], int length, int index) {
     Node* temp = new Node(createTemporaryNodeRepresentation(index));
     Tree* parent = new Tree(*temp);
     pair<int,int> children = findElementInArray(a, length,index);
     if (children.first == -1 || children.second == -1) return parent;
 
-    //findFirstOccurenceOfElement(a, children.first, length) + 1 since the array is indexed from 1.
+    //findFirstOccurenceOfElement(a, children.first, length) + 1 since the array should be indexed from 1.
     int indexRootLeft = children.first + 1;
     Tree* leftTree = getParentPointerTree(a, length, indexRootLeft);
     parent->setLeftTree(leftTree);
 
-    //findFirstOccurenceOfElement(a, children.second, length) since the array is indexed from 1
+    //findFirstOccurenceOfElement(a, children.second, length) since the array should be indexed from 1.
     int indexRootRight = children.second + 1;
     Tree* rightTree = getParentPointerTree(a, length, indexRootRight);
     parent->setRightTree(rightTree);
@@ -131,8 +186,64 @@ Tree* getParentPointerTree(int a[], int length, int index) {
     return parent;
 }
 
+// Update the given tree by adding the given branch.
+void updateTree(Tree* t, vector<int> branch) {
+    Tree* temp = t;
+    int s = branch.size() - 2;
+    while (s >= 0) {
+        int value = branch[s];
+        if (temp->getLeftTree() == nullptr) {
+            Node* node = new Node(createTemporaryNodeRepresentation(value));
+            Tree* newTree= new Tree(*temp);
+            temp->setLeftTree(newTree);
+            temp = temp->getLeftTree();
+        } else {
+            Tree * leftChild = temp->getLeftTree();
+            vector<double> leftChildRepresentation = leftChild->getRootRepresentation();
+            if (leftChildRepresentation[0] == value) {
+                temp = temp->getLeftTree();
+            } else {
+                Tree * rightChild = temp->getRightTree();
+                if (rightChild == nullptr) {
+                    Node* node = new Node(createTemporaryNodeRepresentation(value));
+                    Tree* newTree= new Tree(*temp);
+                    temp->setRightTree(newTree);
+                    temp = temp->getRightTree();
+                } else {
+                    vector<double> rightChildRepresentation = rightChild->getRootRepresentation();
+                    if (leftChildRepresentation[0] == value) {
+                        temp = temp->getRightTree();
+                    } else cout<<" Error in the construction of the parse tree"<<endl;
+                }
+            }
+        }
+        s--;
+    }
+}
+
+// Create tree such that the leaves have indices in ascending order
+Tree* constructTree(int a[], int length, int numberOfLeaves) {
+    int indexRoot = findFirstOccurenceOfElement(a, 0, length);
+    indexRoot++;
+    Node* temp = new Node(createTemporaryNodeRepresentation(indexRoot));
+    Tree* parent = new Tree(*temp);
+    vector<vector<int>> listOfBranches;
+    for (int i = 0; i < numberOfLeaves; i++) {
+        int j = i;
+        vector<int> tempList;
+        while (a[j] != 0 && j < length) {
+            tempList.push_back(j);
+            j = a[j] - 1;
+        }
+        listOfBranches.push_back(tempList);
+        updateTree(parent, tempList);
+    }
+
+}
+
+
 // Given a string of digits and | symbols, return the target tree represented by that string.
-Tree* constructTargetTree(string treeText, string sentence) {
+Tree* constructTargetTree(string treeText, string sentence, Dictionary* dictionary, SentimentLabels* sentimentLabels) {
     vector<string> words = getWordsFromSentence(sentence);
 
     // Find the number of nodes in the tree and also retrieve the positions from treeText.
@@ -156,9 +267,15 @@ Tree* constructTargetTree(string treeText, string sentence) {
     positions[k] = number; // add the last int in the array.
     // Create tree by using temporary values for the inner nodes. Start by finding the root (0) in the array.
     int indexRoot = findFirstOccurenceOfElement(positions, 0, numberOfNodes);
+    // Increase the index of the root by one since the array should be indexed from 1.
     indexRoot++;
+
+    //Tree* root = getParentPointerTree(positions, numberOfNodes, indexRoot);
+    Tree* root = constructTree(positions, numberOfNodes, words.size());
     cout<<"Index of the root: "<<indexRoot<<endl;
-    Tree* root = getParentPointerTree(positions, numberOfNodes, indexRoot);
+    int nr = 0;
+   // string x = assignRightLabels(root, words, dictionary, sentimentLabels, nr);
+   // if (root->getRightTree() == nullptr) cout<<"XOXO"<<endl;
     return root;
 }
 
