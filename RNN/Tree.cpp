@@ -43,14 +43,16 @@ Tree* Tree::getRightTree() {
 // Recursive method for printing a tree.
 void printTree(Tree* t) {
     if (t == nullptr) return;
+    cout<<"("<<endl;
     printTree(t->getLeftTree());
     vector<double> nodeRep = t->getRootRepresentation();
+    cout<<"Root ";
     for (int i = 0; i < nodeRep.size();i++) {
         cout<<nodeRep[i]<<" ";
     }
     cout<<endl;
     printTree(t->getRightTree());
-
+     cout<<")"<<endl;
 }
 
 
@@ -58,4 +60,5 @@ void printTree(Tree* t) {
 void Tree::inOrderTraversal() {
     Tree* t = this;
     printTree(t);
+    cout<<endl;
 }

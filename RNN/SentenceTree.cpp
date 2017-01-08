@@ -194,7 +194,7 @@ void updateTree(Tree* t, vector<int> branch) {
         int value = branch[s];
         if (temp->getLeftTree() == nullptr) {
             Node* node = new Node(createTemporaryNodeRepresentation(value));
-            Tree* newTree= new Tree(*temp);
+            Tree* newTree= new Tree(*node);
             temp->setLeftTree(newTree);
             temp = temp->getLeftTree();
         } else {
@@ -206,12 +206,12 @@ void updateTree(Tree* t, vector<int> branch) {
                 Tree * rightChild = temp->getRightTree();
                 if (rightChild == nullptr) {
                     Node* node = new Node(createTemporaryNodeRepresentation(value));
-                    Tree* newTree= new Tree(*temp);
+                    Tree* newTree= new Tree(*node);
                     temp->setRightTree(newTree);
                     temp = temp->getRightTree();
                 } else {
                     vector<double> rightChildRepresentation = rightChild->getRootRepresentation();
-                    if (leftChildRepresentation[0] == value) {
+                    if (rightChildRepresentation[0] == value) {
                         temp = temp->getRightTree();
                     } else cout<<" Error in the construction of the parse tree"<<endl;
                 }
@@ -231,14 +231,17 @@ Tree* constructTree(int a[], int length, int numberOfLeaves) {
     for (int i = 0; i < numberOfLeaves; i++) {
         int j = i;
         vector<int> tempList;
-        while (a[j] != 0 && j < length) {
-            tempList.push_back(j);
+        while (j <= length) {
+            //if (a[j] == 0) break;
+            tempList.push_back(j + 1);
+            if (a[j] == 0) break;
             j = a[j] - 1;
         }
         listOfBranches.push_back(tempList);
         updateTree(parent, tempList);
+        //parent->inOrderTraversal();
     }
-
+    return parent;
 }
 
 
@@ -274,8 +277,8 @@ Tree* constructTargetTree(string treeText, string sentence, Dictionary* dictiona
     Tree* root = constructTree(positions, numberOfNodes, words.size());
     cout<<"Index of the root: "<<indexRoot<<endl;
     int nr = 0;
-   // string x = assignRightLabels(root, words, dictionary, sentimentLabels, nr);
-   // if (root->getRightTree() == nullptr) cout<<"XOXO"<<endl;
+    string x = assignRightLabels(root, words, dictionary, sentimentLabels, nr);
+    if (root->getLeftTree() == nullptr) cout<<"XOXO"<<endl;
     return root;
 }
 
