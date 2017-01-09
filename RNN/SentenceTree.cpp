@@ -167,7 +167,7 @@ string assignRightLabels(Tree* t, vector<string> words, Dictionary* dictionary, 
 
 
 // Construct the tree which is represented my the given array, a.
-Tree* getParentPointerTree(int a[], int length, int index) {
+/*Tree* getParentPointerTree(int a[], int length, int index) {
     Node* temp = new Node(createTemporaryNodeRepresentation(index));
     Tree* parent = new Tree(*temp);
     pair<int,int> children = findElementInArray(a, length,index);
@@ -184,9 +184,9 @@ Tree* getParentPointerTree(int a[], int length, int index) {
     parent->setRightTree(rightTree);
 
     return parent;
-}
+}*/
 
-// Update the given tree by adding the given branch.
+// Update the given tree by merging the given branch to the tree.
 void updateTree(Tree* t, vector<int> branch) {
     Tree* temp = t;
     int s = branch.size() - 2;
