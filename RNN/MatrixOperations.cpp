@@ -104,8 +104,8 @@ bool checkIfTwoMatricesHaveTheSameDimesions(vector<vector<double>> matrix1, vect
     return true;
 }
 
- // Returns a new matrix which is the Hadamard product of the 2 given products.
-vector<vector<double>> getHadamardProduct(vector<vector<double>> matrix1, vector<vector<double>> matrix2) {
+ // Returns a new matrix which is the Hadamard product of the 2 given matrices.
+vector<vector<double>> getMatrixHadamardProduct(vector<vector<double>> matrix1, vector<vector<double>> matrix2) {
     vector<vector<double>> result;
     if (!checkIfTwoMatricesHaveTheSameDimesions(matrix1, matrix2)) {
         perror("The 2 matrices don't have the same dimesions. Cannot obtain their Hadamard product.");
@@ -125,3 +125,73 @@ vector<vector<double>> getHadamardProduct(vector<vector<double>> matrix1, vector
     return result;
 }
 
+
+// Returns a new matrix which is the Hadamard product of the 2 given vectors.
+vector<double> getVectorHadamardProduct(vector<double> vect1, vector<double> vect2) {
+    vector<double> result;
+    double numberToInsert;
+    for(int i = 0; i < vect1.size(); i++) {
+        numberToInsert = vect1[i] *vect2[i];
+        result.push_back(numberToInsert);
+    }
+    return result;
+}
+
+
+// Compute the softmax of a vector container.
+vector<double> softmax(vector<double> vec) {
+    double sum = 0;
+    double temp;
+    for (int i = 0; i < vec.size(); i++) {
+        sum = sum + exp(vec[i]);
+    }
+    vector<double> result;
+    for (int i = 0; i < vec.size(); i++) {
+        temp = exp(vec[i]) / sum;
+        result.push_back(temp);
+    }
+    return result;
+}
+
+
+/**
+ * Substract, elemnt-wise 2 vector and return vector containing the result of this operation. This assumes
+ * that the 2 vectors have the same dimensions.
+ */
+vector<double> substractTwoVectors(vector<double> firstVector, vector<double> secondVector) {
+    vector<double> result;
+    double difference;
+    for (int i = 0; i < firstVector.size(); i++) {
+        difference = firstVector[i] - secondVector[i];
+        result.push_back(difference);
+    }
+    return result;
+}
+
+/**
+ * Add, elemnt-wise 2 vector and return vector containing the result of this operation. This assumes
+ * that the 2 vectors have the same dimensions.
+ */
+vector<double> addTwoVectors(vector<double> firstVector, vector<double> secondVector) {
+    vector<double> result;
+    double addition;
+    for (int i = 0; i < firstVector.size(); i++) {
+        addition = firstVector[i] + secondVector[i];
+        result.push_back(addition);
+    }
+    return result;
+}
+
+
+// Obtain the derivative of the tanh function using (tanh x)' = 1 - ((tanh x)^2) (entry-wise).
+vector<double> getTanhDerivativeFunction(vector<double> vec) {
+    vector<double> result;
+    double aux;
+    double currentElement;
+    for (int i = 0; i < vec.size(); i++) {
+        currentElement = vec[i];
+        aux = 1 - (currentElement * currentElement);
+        result.push_back(aux);
+    }
+    return result;
+}

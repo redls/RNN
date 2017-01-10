@@ -12,9 +12,14 @@ Dictionary* dictionary =  new Dictionary();
 SentimentLabels* sentimentLabels =  new SentimentLabels();
 
 vector<vector<double>> weights = initialiseWeigths(25);
+
+vector<double> weights1 = createRandomDistributions(25);
+vector<double> weights2 = createRandomDistributions(25);
+
+
 vector<double> weightScore = createRandomDistributions(25);
 
-void createTree(string sentence) {
+Tree* createTree(string sentence) {
     vector<string> words = getWordsFromSentence(sentence);
     vector<Node> nodes = retrieveWordRepresentation(words, vocab);
     vector<pair<int,int>> pairedElem;
@@ -68,19 +73,34 @@ void createTree(string sentence) {
     }
     //Tree aux = *trees[0];
     double score = vectorInnerProduct(weightScore, trees[0]->getRootRepresentation());
-    cout<<score<<endl;
+    for (int i = 0; i < pairedElem.size(); i++) {
+        cout<< pairedElem[i].first<<" "<< pairedElem[i].second<< endl;
+    }
+    //cout<<score<<endl;
+    return trees[0];
 
 }
 
 int main()
 {
-    createTree("This was an amazing movie.");
+    Tree* parsedTree = createTree("But he somehow pulls it off .");
+    cout<<"+++"<<endl;
+    Tree* parsedTree2 = constructTreeForASentence("But he somehow pulls it off .", weights, weightScore, vocab);
+    // parsedTree->inOrderTraversal();
     //createTree("This was an amazing movie.");
     //createTree("This was an awful movie.");
     string treeText = "13|12|11|8|8|9|10|9|10|11|12|13|0";
     string sente = "But he somehow pulls it off .";
-    Tree* t = constructTargetTree(treeText, sente, dictionary, sentimentLabels);
-    t->inOrderTraversal();
+    Tree* target = constructTargetTree(treeText, sente, dictionary, sentimentLabels);
+    vector<vector<double>> sentimentMatrix;
+    sentimentMatrix.push_back(weights1);
+    sentimentMatrix.push_back(weights2);
+    vector<double> parentError;
+
+    for(int i = 0; i < 25;i++) parentError.push_back(0.0);
+
+    vector<double> result = backprop(target,parsedTree2, sentimentMatrix, weights,parentError);
+    //t->inOrderTraversal();
     cout << "Hello world!" << endl;
     return 0;
 }

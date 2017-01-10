@@ -15,3 +15,6 @@ Tree* constructTreeForASentence(string sentence, vector<vector<double>> weights,
 
 // Given a string of digits and | symbols, return the target tree represented by that string.
 Tree* constructTargetTree(string treeText, string sentence, Dictionary* dictionary, SentimentLabels* sentimentLabels);
+
+
+vector<double> backprop(Tree * targetTree, Tree * computedTree, vector<vector<double>> weightScoresMatrix, vector<vector<double>> weightsMatrix, vector<double> parentError);
