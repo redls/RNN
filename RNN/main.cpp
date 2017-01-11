@@ -83,24 +83,27 @@ Tree* createTree(string sentence) {
 
 int main()
 {
+    vector<vector<double>> sentimentMatrix;
+    sentimentMatrix.push_back(weights1);
+    sentimentMatrix.push_back(weights2);
     Tree* parsedTree = createTree("But he somehow pulls it off .");
     cout<<"+++"<<endl;
-    Tree* parsedTree2 = constructTreeForASentence("But he somehow pulls it off .", weights, weightScore, vocab);
+    Tree* parsedTree2 = constructTreeForASentence("But he somehow pulls it off .", weights, sentimentMatrix, vocab);
     // parsedTree->inOrderTraversal();
     //createTree("This was an amazing movie.");
     //createTree("This was an awful movie.");
     string treeText = "13|12|11|8|8|9|10|9|10|11|12|13|0";
     string sente = "But he somehow pulls it off .";
+
     Tree* target = constructTargetTree(treeText, sente, dictionary, sentimentLabels);
-    vector<vector<double>> sentimentMatrix;
-    sentimentMatrix.push_back(weights1);
-    sentimentMatrix.push_back(weights2);
+
     vector<double> parentError;
 
     for(int i = 0; i < 25;i++) parentError.push_back(0.0);
 
     vector<double> result = backprop(target,parsedTree2, sentimentMatrix, weights,parentError);
     //t->inOrderTraversal();
+    printElementsOfVector(result);
     cout << "Hello world!" << endl;
     return 0;
 }

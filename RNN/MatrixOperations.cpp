@@ -1,4 +1,5 @@
 #include<cstdio>
+#include<iostream>
 #include "MatrixOperations.h"
 
 using namespace std;
@@ -194,4 +195,24 @@ vector<double> getTanhDerivativeFunction(vector<double> vec) {
         result.push_back(aux);
     }
     return result;
+}
+
+
+// Create a vector containing d elements, all equal to 0.
+vector<double> getZeros(int d) {
+    vector<double> result;
+    for (int i = 0; i < d; i++) {
+        result.push_back(0);
+    }
+    return result;
+
+}
+
+
+// Print the elements in a vector container.
+void printElementsOfVector(vector<double> vec) {
+    for(int i = 0; i < vec.size(); i++) {
+    cout<<vec[i]<<" ; ";
+    }
+    cout<<endl;
 }

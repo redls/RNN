@@ -8,6 +8,7 @@ class Tree {
     Node node;
     Tree *left;
     Tree *right;
+    vector<double> score;
 
     public:
         Tree(Node x);
@@ -16,8 +17,10 @@ class Tree {
         void setLeftTree(Tree *x);
         void setRightTree(Tree *x);
         void setRoot(Node x);
+        void setScore(vector<double> s);
         Tree* getLeftTree();
         Tree* getRightTree();
+        vector<double> getScore();
 
         // Print the elements of the tree in in-order.
         void inOrderTraversal();

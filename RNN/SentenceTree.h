@@ -10,7 +10,7 @@ using namespace std;
 
 
 // Given a sentence, construct its semantic tree by combining the words using the tanh rule.
-Tree* constructTreeForASentence(string sentence, vector<vector<double>> weights, vector<double> weightScore, Vocabulary *vocab);
+Tree* constructTreeForASentence(string sentence, vector<vector<double>> weights, vector<vector<double>> weightScore, Vocabulary *vocab);
 
 
 // Given a string of digits and | symbols, return the target tree represented by that string.

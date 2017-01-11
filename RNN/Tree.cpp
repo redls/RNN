@@ -32,12 +32,20 @@ void Tree::setRoot(Node x) {
     this->node = x;
 }
 
+void Tree::setScore(vector<double> s) {
+    this->score = s;
+}
+
 Tree* Tree::getLeftTree() {
     return this->left;
 }
 
 Tree* Tree::getRightTree() {
     return this->right;
+}
+
+vector<double> Tree::getScore() {
+    return this->score;
 }
 
 // Recursive method for printing a tree.

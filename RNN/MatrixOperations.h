@@ -50,3 +50,10 @@ vector<double> addTwoVectors(vector<double> firstVector, vector<double> secondVe
 // Obtain the derivative of the tanh function using (tanh x)' = 1 - ((tanh x)^2) (entry-wise).
 vector<double> getTanhDerivativeFunction(vector<double> vec);
 
+// Create a vector containing d elements, all equal to 0.
+vector<double> getZeros(int d);
+
+
+// Print the elements in a vector container.
+void printElementsOfVector(vector<double> vec);
+
