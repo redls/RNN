@@ -1,97 +1,61 @@
 #include <iostream>
 #include <utility>
-//#include "ParseASentence.h"
+#include "DatasetSentences.h"
+#include "DatasetSentenceTrees.h"
+#include "TestsetSentences.h"
 #include "MatrixOperations.h"
 #include "SentenceTree.h"
 
 
 using namespace std;
 
+double learningRate = 0.001;
+
 Vocabulary* vocab = new Vocabulary();
 Dictionary* dictionary =  new Dictionary();
 SentimentLabels* sentimentLabels =  new SentimentLabels();
+DatasetSentences* datasetSentences = new DatasetSentences();
+TestsetSentences* testsetSentences = new TestsetSentences();
+DatasetSentencesTrees* targetSentencesTrees = new DatasetSentencesTrees();
 
+unordered_map<string, long long> dataset_sentences = datasetSentences->getSentencesMap();
+unordered_map<string, long long> testset_sentences = testsetSentences->getSentencesMap();
+
+// Weights used to train the network. They have the dimension of 25 x 50.
 vector<vector<double>> weights = initialiseWeigths(25);
 
-vector<double> weights1 = createRandomDistributions(25);
-vector<double> weights2 = createRandomDistributions(25);
-
+// Sentiment matrix used for classification in the 2 classes, negative and positive.
+vector<vector<double>> sentimentMatrix;
 
 vector<double> weightScore = createRandomDistributions(25);
 
-Tree* createTree(string sentence) {
-    vector<string> words = getWordsFromSentence(sentence);
-    vector<Node> nodes = retrieveWordRepresentation(words, vocab);
-    vector<pair<int,int>> pairedElem;
-    vector<Tree*> trees;
 
-    // Convert the nodes into trees with height 1.
-    for(int i = 0; i < nodes.size();i++) {
-        Tree *lala = new Tree(nodes[i]);
-        trees.push_back(lala);
-    }
-
-    int numberOfWords = trees.size();
-
-    // Merge all the small trees into only one tree.
-    while (numberOfWords > 1) {
-        double score = 0;
-        double maxScore = 0;
-        vector<double> concatenation = concatenateTwoVectors(trees[0]->getRootRepresentation(),
-                    trees[1]->getRootRepresentation());
-        vector<double> product = matrixMultplication(weights, concatenation);
-        vector<double> afterTanh = applyTanhElementWise(product);
-        maxScore = vectorInnerProduct(weightScore, afterTanh);
-        int left = 0;
-        int right = 1;
-        for(int i = 1; i < trees.size(); i++) {
-            concatenation = concatenateTwoVectors(trees[i-1]->getRootRepresentation(),
-                    trees[i]->getRootRepresentation());
-            product = matrixMultplication(weights, concatenation);
-            afterTanh = applyTanhElementWise(product);
-            score = vectorInnerProduct(weightScore, afterTanh);
-            if (score > maxScore) {
-                maxScore = score;
-                left = i-1;
-                right = i;
-            }
+void trainRNN() {
+    for (auto it = dataset_sentences.begin(); it != dataset_sentences.end(); ++it ) {
+        string sentence = it->first;
+        long long index = it->second;
+        string targetTreeFormat = targetSentencesTrees->retrieveSentenceIndex(index);
+        if (targetTreeFormat.empty()) {
+             cout<<"For the given sentence, no target tree was found."<<endl;
+             continue;
         }
-        concatenation = concatenateTwoVectors(trees[left]->getRootRepresentation(),
-                    trees[right]->getRootRepresentation());
-        product = matrixMultplication(weights, concatenation);
-        afterTanh = applyTanhElementWise(product);
-        Tree *merged = new Tree(afterTanh);
-        merged->setLeftTree(trees[left]);
-        merged->setRightTree(trees[right]);
-        trees[left] = merged;
-        for(int i = right + 1; i < trees.size();i++) {
-            trees[i-1] = trees[i];
-        }
-        trees.pop_back();
-        pairedElem.push_back(make_pair(left,right));
-        numberOfWords--;
+        Tree* target = constructTargetTree(targetTreeFormat, sentence, dictionary, sentimentLabels);
+        Tree* parsedTree2 = constructTreeForASentence(sentence, weights, sentimentMatrix, vocab);
+        vector<double> parentError = getZeros(25);
+        vector<double> result = backprop(target,parsedTree2, sentimentMatrix, weights,parentError);
+        //weights =
     }
-    //Tree aux = *trees[0];
-    double score = vectorInnerProduct(weightScore, trees[0]->getRootRepresentation());
-    for (int i = 0; i < pairedElem.size(); i++) {
-        cout<< pairedElem[i].first<<" "<< pairedElem[i].second<< endl;
-    }
-    //cout<<score<<endl;
-    return trees[0];
-
 }
 
 int main()
 {
-    vector<vector<double>> sentimentMatrix;
+    vector<double> weights1 = createRandomDistributions(25);
+    vector<double> weights2 = createRandomDistributions(25);
     sentimentMatrix.push_back(weights1);
     sentimentMatrix.push_back(weights2);
-    Tree* parsedTree = createTree("But he somehow pulls it off .");
+    //Tree* parsedTree = createTree("But he somehow pulls it off .");
     cout<<"+++"<<endl;
     Tree* parsedTree2 = constructTreeForASentence("But he somehow pulls it off .", weights, sentimentMatrix, vocab);
-    // parsedTree->inOrderTraversal();
-    //createTree("This was an amazing movie.");
-    //createTree("This was an awful movie.");
     string treeText = "13|12|11|8|8|9|10|9|10|11|12|13|0";
     string sente = "But he somehow pulls it off .";
 
@@ -103,7 +67,8 @@ int main()
 
     vector<double> result = backprop(target,parsedTree2, sentimentMatrix, weights,parentError);
     //t->inOrderTraversal();
-    printElementsOfVector(result);
+    //printElementsOfVector(result);
+    trainRNN();
     cout << "Hello world!" << endl;
     return 0;
 }

@@ -68,7 +68,7 @@ Tree* constructTreeForASentence(string sentence, vector<vector<double>> weights,
         // Create new node which has as children the 2 nodes, and as the root the computed
         // score.
         Tree *merged = new Tree(afterTanh);
-        merged->setScore(matrixMultplication(weightScore, concatenation));
+        merged->setScore(matrixMultplication(weightScore, afterTanh));
 
         merged->setLeftTree(trees[left]);
         merged->setRightTree(trees[right]);
@@ -287,7 +287,6 @@ Tree* constructTargetTree(string treeText, string sentence, Dictionary* dictiona
     // Increase the index of the root by one since the array should be indexed from 1.
     indexRoot++;
 
-    //Tree* root = getParentPointerTree(positions, numberOfNodes, indexRoot);
     Tree* root = constructTree(positions, numberOfNodes, words.size());
     cout<<"Index of the root: "<<indexRoot<<endl;
     int nr = 0;

@@ -1,7 +1,10 @@
 # depslib dependency file v1.0
-1484156039 source:/home/laura/Part II Project/partIIProject/RNN/main.cpp
+1484178188 source:/home/laura/Part II Project/partIIProject/RNN/main.cpp
 	<iostream>
 	<utility>
+	"DatasetSentences.h"
+	"DatasetSentenceTrees.h"
+	"TestsetSentences.h"
 	"MatrixOperations.h"
 	"SentenceTree.h"
 
@@ -37,7 +40,7 @@
 	<iostream>
 	"ParseASentence.h"
 
-1481982056 source:/home/laura/Part II Project/partIIProject/RNN/DatasetSentences.cpp
+1484178321 source:/home/laura/Part II Project/partIIProject/RNN/DatasetSentences.cpp
 	"DatasetSentences.h"
 	<iostream>
 	<fstream>
@@ -61,10 +64,14 @@
 	"Tree.h"
 	"Vocabulary.h"
 
-1482009477 source:/home/laura/Part II Project/partIIProject/RNN/DatasetSentencesTrees.cpp
+1484181286 source:/home/laura/Part II Project/partIIProject/RNN/DatasetSentencesTrees.cpp
 	<cstdio>
 	<vector>
 	<unordered_map>
+	<iostream>
+	<fstream>
+	<string.h>
+	"DatasetSentenceTrees.h"
 
 1484095589 /home/laura/Part II Project/partIIProject/RNN/MatrixOperations.h
 	<cstdio>
@@ -76,7 +83,7 @@
 	<iostream>
 	"MatrixOperations.h"
 
-1484095422 source:/home/laura/Part II Project/partIIProject/RNN/SentenceTree.cpp
+1484174146 source:/home/laura/Part II Project/partIIProject/RNN/SentenceTree.cpp
 	"SentenceTree.h"
 	"MatrixOperations.h"
 	<string>
@@ -110,4 +117,21 @@
 1483786513 /home/laura/Part II Project/partIIProject/RNN/Dictionary.h
 	<unordered_map>
 	<cstdio>
+
+1481932236 source:/home/laura/Part II Project/partIIProject/RNN/TestsetSentences.cpp
+	"TestsetSentences.h"
+	<iostream>
+	<fstream>
+	<cstdio>
+	<string.h>
+
+1481932198 /home/laura/Part II Project/partIIProject/RNN/TestsetSentences.h
+	<unordered_map>
+	<cstdio>
+
+1484178569 /home/laura/Part II Project/partIIProject/RNN/DatasetSentenceTrees.h
+	<cstdio>
+	<vector>
+	<unordered_map>
+	<string.h>
 
