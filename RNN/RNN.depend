@@ -1,6 +1,7 @@
 # depslib dependency file v1.0
-1484178188 source:/home/laura/Part II Project/partIIProject/RNN/main.cpp
+1484230965 source:/home/laura/Part II Project/partIIProject/RNN/main.cpp
 	<iostream>
+	<fstream>
 	<utility>
 	"DatasetSentences.h"
 	"DatasetSentenceTrees.h"
@@ -73,24 +74,24 @@
 	<string.h>
 	"DatasetSentenceTrees.h"
 
-1484095589 /home/laura/Part II Project/partIIProject/RNN/MatrixOperations.h
+1484231121 /home/laura/Part II Project/partIIProject/RNN/MatrixOperations.h
 	<cstdio>
 	<vector>
 	<math.h>
 
-1484095606 source:/home/laura/Part II Project/partIIProject/RNN/MatrixOperations.cpp
+1484230933 source:/home/laura/Part II Project/partIIProject/RNN/MatrixOperations.cpp
 	<cstdio>
 	<iostream>
 	"MatrixOperations.h"
 
-1484174146 source:/home/laura/Part II Project/partIIProject/RNN/SentenceTree.cpp
+1484230945 source:/home/laura/Part II Project/partIIProject/RNN/SentenceTree.cpp
 	"SentenceTree.h"
 	"MatrixOperations.h"
 	<string>
 	<cstdio>
 	<iostream>
 
-1484156099 /home/laura/Part II Project/partIIProject/RNN/SentenceTree.h
+1484228928 /home/laura/Part II Project/partIIProject/RNN/SentenceTree.h
 	"ParseASentence.h"
 	"Dictionary.h"
 	"SentimentLabels.h"

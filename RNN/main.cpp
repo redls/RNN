@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <utility>
 #include "DatasetSentences.h"
 #include "DatasetSentenceTrees.h"
@@ -40,11 +41,28 @@ void trainRNN() {
              continue;
         }
         Tree* target = constructTargetTree(targetTreeFormat, sentence, dictionary, sentimentLabels);
-        Tree* parsedTree2 = constructTreeForASentence(sentence, weights, sentimentMatrix, vocab);
+        Tree* parsedTree = constructTreeForASentence(sentence, weights, sentimentMatrix, vocab);
         vector<double> parentError = getZeros(25);
-        vector<double> result = backprop(target,parsedTree2, sentimentMatrix, weights,parentError);
-        //weights =
+        vector<vector<double>> result = backprop(target,parsedTree, sentimentMatrix, weights,parentError);
+        weights = subtractTwoMatrices(weights, multiplyMatrixByScalar(result, learningRate));
     }
+}
+
+void classifyTestSentences() {
+     ofstream outputResult("RNNClasificationResults.txt");
+     for (auto it = testset_sentences.begin(); it != testset_sentences.end(); ++it ) {
+        string sentence = it->first;
+        long long index = it->second;
+        Tree* parsedTree = constructTreeForASentence(sentence, weights, sentimentMatrix, vocab);
+        vector<double> finalScore = parsedTree->getScore();
+        if (finalScore.size() == 2) {
+            if (finalScore[0] > finalScore[1]) outputResult<<"Negative -> ";
+            else outputResult<<"Positive -> ";
+        } else {
+            cout<<"Final score does not 2 dimensions for the sentence:";
+        }
+        outputResult<<"Sentence: "<<sentence<<endl;
+     }
 }
 
 int main()
@@ -65,10 +83,12 @@ int main()
 
     for(int i = 0; i < 25;i++) parentError.push_back(0.0);
 
-    vector<double> result = backprop(target,parsedTree2, sentimentMatrix, weights,parentError);
+    vector<vector<double>> result = backprop(target,parsedTree2, sentimentMatrix, weights,parentError);
+    cout<<"--"<<result[0].size()<<endl;
     //t->inOrderTraversal();
     //printElementsOfVector(result);
     trainRNN();
+    classifyTestSentences();
     cout << "Hello world!" << endl;
     return 0;
 }

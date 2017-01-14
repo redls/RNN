@@ -13,7 +13,8 @@ using namespace std;
 
 DatasetSentences::DatasetSentences() {
     // Read from the file.
-    ifstream input("stanfordSentimentTreebank/datasetSentences.txt");
+  //  ifstream input("stanfordSentimentTreebank/datasetSentences.txt");
+    ifstream input("Preprocessing.txt");
     ifstream input_datasplit("stanfordSentimentTreebank/datasetSplit.txt");
     ofstream outputFile;
     outputFile.open("debug.txt", std::ios_base::app);
@@ -22,10 +23,10 @@ DatasetSentences::DatasetSentences() {
     bool is_number = false;
     long long number = 0;
     string word = "";
-    getline( input, line );
-    getline( input_datasplit, line_dataset );
-    while(getline( input, line ) ) {
-         getline( input_datasplit, line_dataset );
+    getline(input, line);
+    getline(input_datasplit, line_dataset);
+    while(getline(input, line)) {
+         getline(input_datasplit, line_dataset);
          is_number = true;
          number = 0;
          word.clear();

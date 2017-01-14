@@ -11,7 +11,7 @@ Dictionary::Dictionary() {
     bool is_number = false;
     long long number = 0;
     string word = "";
-    while(getline( input, line ) ) {
+    while(getline(input, line)) {
          is_number = false;
          word.clear();
          for(char & c : line) {
@@ -47,7 +47,7 @@ long long Dictionary::getPhraseIndex(string phrase2) {
     if (found_iter == dictionary.end()) {
         ofstream outputFile;
         outputFile.open("debug.txt", std::ios_base::app);
-        outputFile<<"The given phrase: "<<phrase<<" was not found in the dictionary."<<endl;
+        cout<<"The given phrase: "<<phrase<<" was not found in the dictionary."<<endl;
         return -1;
         }
     return found_iter->second;

@@ -3,11 +3,13 @@
 #include <cstdio>
 #include <string.h>
 #include <math.h>
+#include <ctype.h>
 
 #include "Dictionary.h"
 #include "DatasetSentences.h"
 #include "SentimentLabels.h"
 #include "TestsetSentences.h"
+#include "Preprocessing.h"
 
 using namespace std;
 
@@ -34,8 +36,10 @@ void updateFrequencyOfWord(bool is_positive, string word) {
             positiveWordsMap.insert(make_pair(word, 1));
             return;
         }
-        long long value = found_iter->second + 1;
-        positiveWordsMap.insert(make_pair(word, value));
+        long long value = found_iter->second;
+        positiveWordsMap[word] = found_iter->second+1;
+        cout<<value<<endl;
+        //positiveWordsMap.insert(make_pair(word, value));
      } else {
         unordered_map<string, long long>::const_iterator found_iter = negativeWordsMap.find(word);
         if (found_iter == negativeWordsMap.end()) {
@@ -43,7 +47,7 @@ void updateFrequencyOfWord(bool is_positive, string word) {
         return;
         }
         long long value = found_iter->second + 1;
-        negativeWordsMap.insert(make_pair(word, value));
+        negativeWordsMap[word] = value;
      }
 }
 
@@ -66,18 +70,20 @@ void trainNaiveBayes() {
                     is_positive = false;
                 }
                 string word = "";
-                for(char & c : sentence) {
+                for(char &c: sentence) {
                     if (c == ' ') {
                         nr++;
                         outputFile<<word<<" ***"<<is_positive<<endl;
                         updateFrequencyOfWord(is_positive, word);
-                        word.clear();
+                        word = "";
                     } else {
-                        word = word + c;
+                        char aux = tolower(c);
+                        word = word + aux;
                     }
                 }
             }
         } else {
+        cout<<"The given phrase was not found in the dictionary."<<endl;
         }
     }
     cout<<nr<<endl;
@@ -108,13 +114,19 @@ void testNaiveBayes() {
     long long number_of_positives = 0;
     long long total_positives = frequencyOfWords(true);
     long long total_negatives = frequencyOfWords(false);
+    long long correctPrediction = 0;
+    long long numberOfSentences = 0;
     ofstream outputResult("NaiveBayesResults.txt");
+    //ofstream outputResult("NaiveBayesResultsAccuracy.txt");
     for (auto it = testset_sentences.begin(); it != testset_sentences.end(); ++it ) {
+        numberOfSentences++;
         product_of_positives = 1.0;
         product_of_negative = 1.0;
         number_of_negatives = 0;
         number_of_positives = 0;
+
         string sentence = it->first;
+        long long index = it->second;
         string word = "";
         for(char & c : sentence) {
             if (c == ' ') {
@@ -140,9 +152,11 @@ void testNaiveBayes() {
                 outputFile<<"Product2 of negative appearences for the word: "<<product_of_negative<<endl;
                 outputFile<<"Product4 of positive appearences for the word: "<<total_positives<<endl;
                 outputFile<<"Product4 of negative appearences for the word: "<<total_negatives<<endl;
-                word.clear();
+                word = "";
             } else {
                 word = word + c;
+                //char aux = tolower(c);
+                //word = word + aux;
             }
         }
         outputFile<<"Product of positive appearences for the word: "<<product_of_positives<<endl;
@@ -157,22 +171,33 @@ void testNaiveBayes() {
         outputFile<<"Sentence: "<<sentence<<" has negative probability "<<final_negative_prob<<endl;
         if (final_negative_prob > final_positive_prob) {
            outputResult<<it->first<<" "<<"negative "<<final_negative_prob<<" "<<final_positive_prob<<endl;
+           if (sentimentLabels->getSentimentScore(index) < 0.5) correctPrediction++;
         } else {
          outputResult<<it->first<<" "<<"positive "<<final_negative_prob<<" "<<final_positive_prob<<endl;
+         if (sentimentLabels->getSentimentScore(index) >= 0.5) correctPrediction++;
         }
     }
+    cout<<"Correct Predicted: "<<correctPrediction<<" out of: "<<numberOfSentences<<endl;
 }
 
 int main() {
     ofstream outputFile;
     outputFile.open("debug.txt", std::ios_base::app);
     outputFile.clear();
+    preprocessSentences();
     string line;
     trainNaiveBayes();
+    ofstream pos("Positives.txt");
+    ofstream neg("Negatives.txt");
     cout<<dataset_sentences.size();
     outputFile<<"*****"<<endl;
     outputFile<<"Trained Naive Bayes"<<endl;
     testNaiveBayes();
-
+    for (auto it = positiveWordsMap.begin(); it != positiveWordsMap.end(); ++it ) {
+        pos<<it->first<<" "<<it->second<<endl;
+    }
+    for (auto it = negativeWordsMap.begin(); it != negativeWordsMap.end(); ++it ) {
+        neg<<it->first<<" "<<it->second<<endl;
+    }
     return 0;
 }

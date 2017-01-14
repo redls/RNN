@@ -5,7 +5,7 @@
 using namespace std;
 
 // Multiplies the given matrix with the vector and returns a vector.
-vector<double> matrixMultplication(vector<vector<double>> matrix, vector<double> vec);
+vector<double> matrixMultplicationWithVector(vector<vector<double>> matrix, vector<double> vec);
 
 // Checks the dimensions of the matrix and of the vector to see if they can be multiplied.
 bool checkMatrixMultiplicationWithVector(vector<vector<double>> matrix, vector<double> vec);
@@ -46,6 +46,20 @@ vector<double> substractTwoVectors(vector<double> firstVector, vector<double> se
  */
 vector<double> addTwoVectors(vector<double> firstVector, vector<double> secondVector);
 
+// Looks at the dimensions of the two matrices and checks if the dimensions are equal.
+bool checkMatricesHaveSameDimenesions(vector<vector<double>> firstMatrice, vector<vector<double>> secondMatrice);
+
+/**
+ * Add, elemnt-wise 2 matrices and return a matrice containing the result of this operation. This assumes
+ * that the 2 matrices have the same dimensions.
+ */
+vector<vector<double>> addTwoMatrices(vector<vector<double>> firstMatrice, vector<vector<double>> secondMatrice);
+
+/**
+ * Subtract, elemnt-wise 2 matrices and return a matrice containing the result of this operation. This assumes
+ * that the 2 matrices have the same dimensions.
+ */
+vector<vector<double>> subtractTwoMatrices(vector<vector<double>> firstMatrice, vector<vector<double>> secondMatrice);
 
 // Obtain the derivative of the tanh function using (tanh x)' = 1 - ((tanh x)^2) (entry-wise).
 vector<double> getTanhDerivativeFunction(vector<double> vec);
@@ -53,7 +67,17 @@ vector<double> getTanhDerivativeFunction(vector<double> vec);
 // Create a vector containing d elements, all equal to 0.
 vector<double> getZeros(int d);
 
-
 // Print the elements in a vector container.
 void printElementsOfVector(vector<double> vec);
 
+// Transpose a row vector. Return a matrix representing the column vector.
+vector<vector<double>> transposeRowVector(vector<double> vec);
+
+// Create a weight matrix containing only 0s of dimensions d x 2d.
+vector<vector<double>> getZerosWeightMatrix(int d);
+
+// Matrix multiplication
+vector<vector<double>> multiplyMatrices(vector<vector<double>> matrix, vector<double> vec);
+
+// Multiply matrix by scalar.
+vector<vector<double>> multiplyMatrixByScalar(vector<vector<double>> matrix, double scalar);

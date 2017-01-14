@@ -39,7 +39,7 @@ Tree* constructTreeForASentence(string sentence, vector<vector<double>> weights,
         double maxScore = 0;
         vector<double> concatenation = concatenateTwoVectors(trees[0]->getRootRepresentation(),
                     trees[1]->getRootRepresentation());
-        vector<double> product = matrixMultplication(weights, concatenation);
+        vector<double> product = matrixMultplicationWithVector(weights, concatenation);
         vector<double> afterTanh = applyTanhElementWise(product);
         maxScore = distanceBetweenTwoVectors(trees[0]->getRootRepresentation(), trees[1]->getRootRepresentation());
         int left = 0;
@@ -47,7 +47,7 @@ Tree* constructTreeForASentence(string sentence, vector<vector<double>> weights,
         for(int i = 1; i < trees.size(); i++) {
             concatenation = concatenateTwoVectors(trees[i-1]->getRootRepresentation(),
                     trees[i]->getRootRepresentation());
-            product = matrixMultplication(weights, concatenation);
+            product = matrixMultplicationWithVector(weights, concatenation);
             afterTanh = applyTanhElementWise(product);
             score = distanceBetweenTwoVectors(trees[i-1]->getRootRepresentation(),
                     trees[i]->getRootRepresentation());
@@ -62,13 +62,13 @@ Tree* constructTreeForASentence(string sentence, vector<vector<double>> weights,
         // Recompute the value of the new node.
         concatenation = concatenateTwoVectors(trees[left]->getRootRepresentation(),
                     trees[right]->getRootRepresentation());
-        product = matrixMultplication(weights, concatenation);
+        product = matrixMultplicationWithVector(weights, concatenation);
         afterTanh = applyTanhElementWise(product);
 
         // Create new node which has as children the 2 nodes, and as the root the computed
         // score.
         Tree *merged = new Tree(afterTanh);
-        merged->setScore(matrixMultplication(weightScore, afterTanh));
+        merged->setScore(softmax(matrixMultplicationWithVector(weightScore, afterTanh)));
 
         merged->setLeftTree(trees[left]);
         merged->setRightTree(trees[right]);
@@ -84,7 +84,7 @@ Tree* constructTreeForASentence(string sentence, vector<vector<double>> weights,
         numberOfWords--;
     }
     // Tells us what is the score of the root of the complete tree of  the sentence.
-    vector<double> score = matrixMultplication(weightScore, trees[0]->getRootRepresentation());
+    vector<double> score = matrixMultplicationWithVector(weightScore, trees[0]->getRootRepresentation());
     //for (int i = 0; i < 2; i++) {
         cout<<"negative: "<<score[0]<<"\n positive"<<score[1]<< endl;
     //}
@@ -296,7 +296,7 @@ Tree* constructTargetTree(string treeText, string sentence, Dictionary* dictiona
 }
 
 
-vector<double> backprop(Tree * targetTree, Tree * computedTree, vector<vector<double>> weightScoresMatrix, vector<vector<double>> weightsMatrix, vector<double> parentError) {
+vector<vector<double>> backprop(Tree * targetTree, Tree * computedTree, vector<vector<double>> weightScoresMatrix, vector<vector<double>> weightsMatrix, vector<double> parentError) {
     vector<vector<double>> weightScoresMatrixTranspose = getTransposeMatrix(weightScoresMatrix);
     vector<vector<double>> weightsMatrixTranspose = getTransposeMatrix(weightsMatrix);
     Tree* copyOfTargetTree = targetTree;
@@ -311,19 +311,19 @@ vector<double> backprop(Tree * targetTree, Tree * computedTree, vector<vector<do
         targetRootRepresentation = targetTree->getRootRepresentation();
         }
     vector<double> computedRootRepresentation = computedTree->getRootRepresentation();
-    vector<double> softmaxResult = softmax(matrixMultplication(weightScoresMatrix, computedRootRepresentation));
+    vector<double> softmaxResult = softmax(matrixMultplicationWithVector(weightScoresMatrix, computedRootRepresentation));
 
     vector<double> difference = substractTwoVectors(softmaxResult, targetRootRepresentation);
 
-    vector<double> deltaScore = matrixMultplication(weightScoresMatrixTranspose, difference);
+    vector<double> deltaScore = matrixMultplicationWithVector(weightScoresMatrixTranspose, difference);
 
     vector<double> afterTanhDeriv = getTanhDerivativeFunction(computedRootRepresentation);
 
     deltaScore = getVectorHadamardProduct(deltaScore, afterTanhDeriv);
 
-    vector<double> finalScore = addTwoVectors(deltaScore, parentError);
+    vector<double> delta = addTwoVectors(deltaScore, parentError);
 
-    vector<double> newParentError = matrixMultplication(weightsMatrixTranspose, finalScore);
+    vector<double> newParentError = matrixMultplicationWithVector(weightsMatrixTranspose, delta);
 
     // Compute error for children.
     vector<double> leftChild = getZeros(25);
@@ -331,12 +331,16 @@ vector<double> backprop(Tree * targetTree, Tree * computedTree, vector<vector<do
 
     // This means the current node is a leaf, return the error only for this node.
     if (computedTree->getLeftTree() == nullptr) {
-        return finalScore;
+        return getZerosWeightMatrix(25);
     }
     leftChild =  computedTree->getLeftTree()->getRootRepresentation();
     rightChild =  computedTree->getRightTree()->getRootRepresentation();
 
     vector<double> mergedChildren = concatenateTwoVectors(leftChild, rightChild);
+
+    vector<vector<double>> deltaTransposed = transposeRowVector(delta);
+    vector<vector<double>> deltaMatrix = multiplyMatrices(deltaTransposed, mergedChildren);
+
     mergedChildren = getTanhDerivativeFunction(mergedChildren);
 
     newParentError = getVectorHadamardProduct(newParentError, mergedChildren);
@@ -348,10 +352,10 @@ vector<double> backprop(Tree * targetTree, Tree * computedTree, vector<vector<do
         else rightChildError.push_back(newParentError[i]);
     }
 
-    vector<double> childrenScores =  addTwoVectors(backprop(copyOfTargetTree->getLeftTree(), computedTree->getLeftTree(), weightScoresMatrix, weightsMatrix, leftChildError),
+    vector<vector<double>> childrenScores =  addTwoMatrices(backprop(copyOfTargetTree->getLeftTree(), computedTree->getLeftTree(), weightScoresMatrix, weightsMatrix, leftChildError),
             backprop(copyOfTargetTree->getRightTree(), computedTree->getRightTree(), weightScoresMatrix, weightsMatrix, rightChildError));
 
-    return addTwoVectors(childrenScores, finalScore);
+    return addTwoMatrices(childrenScores, deltaMatrix);
 }
 
 

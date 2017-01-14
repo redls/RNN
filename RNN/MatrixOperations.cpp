@@ -16,7 +16,7 @@ bool checkMatrixMultiplicationWithVector(vector<vector<double>> matrix, vector<d
 }
 
 // Multiplies the given matrix with the vector and returns a vector.
-vector<double> matrixMultplication(vector<vector<double>> matrix, vector<double> vec) {
+vector<double> matrixMultplicationWithVector(vector<vector<double>> matrix, vector<double> vec) {
     vector<double> result;
     if (!checkMatrixMultiplicationWithVector(matrix, vec))  {
         perror("The matrix multiplication with the vector could not be computed. The 2 given inputs cannot be multiplied.");
@@ -215,4 +215,102 @@ void printElementsOfVector(vector<double> vec) {
     cout<<vec[i]<<" ; ";
     }
     cout<<endl;
+}
+
+
+// Looks at the dimensions of the two matrices and checks if the dimensions are equal.
+bool checkMatricesHaveSameDimenesions(vector<vector<double>> firstMatrice, vector<vector<double>> secondMatrice) {
+    int firstMatriceLines = firstMatrice.size();
+    int firstMatriceColumns = firstMatrice[0].size();
+
+    int secondMatriceLines = secondMatrice.size();
+    int secondMatriceColumns = secondMatrice[0].size();
+
+    if ((firstMatriceLines == secondMatriceLines) && (firstMatriceColumns == secondMatriceColumns)) return true;
+    return false;
+}
+
+/**
+ * Add, elemnt-wise 2 matrices and return a matrice containing the result of this operation. This assumes
+ * that the 2 matrices have the same dimensions.
+ */
+vector<vector<double>> addTwoMatrices(vector<vector<double>> firstMatrice, vector<vector<double>> secondMatrice) {
+    vector<vector<double>> result;
+    for(int i = 0; i < firstMatrice.size(); i++) {
+        vector<double> temp;
+        for(int j = 0; j < firstMatrice[0].size(); j++) {
+            temp.push_back(firstMatrice[i][j] + secondMatrice[i][j]);
+        }
+        result.push_back(temp);
+    }
+    return result;
+}
+
+/**
+ * Subtract, elemnt-wise 2 matrices and return a matrice containing the result of this operation. This assumes
+ * that the 2 matrices have the same dimensions.
+ */
+vector<vector<double>> subtractTwoMatrices(vector<vector<double>> firstMatrice, vector<vector<double>> secondMatrice) {
+    vector<vector<double>> result;
+    for(int i = 0; i < firstMatrice.size(); i++) {
+        vector<double> temp;
+        for(int j = 0; j < firstMatrice[0].size(); j++) {
+            temp.push_back(firstMatrice[i][j] - secondMatrice[i][j]);
+        }
+        result.push_back(temp);
+    }
+    return result;
+}
+
+// Multiply matrix by scalar.
+vector<vector<double>> multiplyMatrixByScalar(vector<vector<double>> matrix, double scalar) {
+    vector<vector<double>> result;
+    for(int i = 0; i < matrix.size(); i++) {
+        vector<double> temp;
+        for(int j = 0; j < matrix[0].size(); j++) {
+            temp.push_back(matrix[i][j] * scalar);
+        }
+        result.push_back(temp);
+    }
+    return result;
+}
+
+// Transpose a row vector. Return a matrix representing the column vector.
+vector<vector<double>> transposeRowVector(vector<double> vec) {
+    vector<vector<double>> result;
+    for(int i = 0; i < vec.size(); i++) {
+        vector<double> temp;
+        temp.push_back(vec[i]);
+        result.push_back(temp);
+    }
+    return result;
+}
+
+
+// Create a weight matrix containing only 0s of dimensions d x 2d.
+vector<vector<double>> getZerosWeightMatrix(int d) {
+    vector<vector<double>> result;
+    for(int i = 0; i < d; i++) {
+        vector<double> temp;
+        for(int j = 0; j < 2*d; j++) {
+            temp.push_back(0);
+        }
+        result.push_back(temp);
+    }
+    return result;
+}
+
+// Matrix multiplication
+vector<vector<double>> multiplyMatrices(vector<vector<double>> matrix, vector<double> vec) {
+    vector<vector<double>> result;
+    double s = 0; // current sum
+    int n = matrix.size();
+    for (int i = 0; i < n; i++) {
+        vector<double> temp;
+        for (int j = 0;j < vec.size(); j++) {
+            temp.push_back(matrix[i][0] * vec[j]);
+        }
+        result.push_back(temp);
+    }
+    return result;
 }
