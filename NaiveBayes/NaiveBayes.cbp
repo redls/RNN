@@ -36,6 +36,8 @@
 		<Unit filename="DatasetSentences.h" />
 		<Unit filename="Dictionary.cpp" />
 		<Unit filename="Dictionary.h" />
+		<Unit filename="Preprocessing.cpp" />
+		<Unit filename="Preprocessing.h" />
 		<Unit filename="SentimentLabels.cpp" />
 		<Unit filename="SentimentLabels.h" />
 		<Unit filename="TestsetSentences.cpp" />

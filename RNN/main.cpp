@@ -6,6 +6,7 @@
 #include "TestsetSentences.h"
 #include "MatrixOperations.h"
 #include "SentenceTree.h"
+#include "Preprocessing.h"
 
 
 using namespace std;
@@ -67,6 +68,7 @@ void classifyTestSentences() {
 
 int main()
 {
+    preprocessSentences();
     vector<double> weights1 = createRandomDistributions(25);
     vector<double> weights2 = createRandomDistributions(25);
     sentimentMatrix.push_back(weights1);

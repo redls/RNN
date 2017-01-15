@@ -13,7 +13,8 @@ using namespace std;
 
 TestsetSentences::TestsetSentences() {
     // Read from the file.
-    ifstream input("stanfordSentimentTreebank/datasetSentences.txt");
+    //ifstream input("stanfordSentimentTreebank/datasetSentences.txt");
+    ifstream input("Preprocessing.txt");
     ifstream input_datasplit("stanfordSentimentTreebank/datasetSplit.txt");
     string line;
     string line_dataset;

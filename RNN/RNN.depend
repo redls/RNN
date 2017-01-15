@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1484230965 source:/home/laura/Part II Project/partIIProject/RNN/main.cpp
+1484440698 source:/home/laura/Part II Project/partIIProject/RNN/main.cpp
 	<iostream>
 	<fstream>
 	<utility>
@@ -8,6 +8,7 @@
 	"TestsetSentences.h"
 	"MatrixOperations.h"
 	"SentenceTree.h"
+	"Preprocessing.h"
 
 1481972415 source:/home/laura/Part II Project/partIIProject/RNN/Node.cpp
 	"Node.h"
@@ -41,7 +42,7 @@
 	<iostream>
 	"ParseASentence.h"
 
-1484178321 source:/home/laura/Part II Project/partIIProject/RNN/DatasetSentences.cpp
+1484440779 source:/home/laura/Part II Project/partIIProject/RNN/DatasetSentences.cpp
 	"DatasetSentences.h"
 	<iostream>
 	<fstream>
@@ -79,7 +80,7 @@
 	<vector>
 	<math.h>
 
-1484230933 source:/home/laura/Part II Project/partIIProject/RNN/MatrixOperations.cpp
+1484231160 source:/home/laura/Part II Project/partIIProject/RNN/MatrixOperations.cpp
 	<cstdio>
 	<iostream>
 	"MatrixOperations.h"
@@ -135,4 +136,14 @@
 	<vector>
 	<unordered_map>
 	<string.h>
+
+1484350511 /home/laura/Part II Project/partIIProject/RNN/Preprocessing.h
+	<cstdio>
+
+1484351850 source:/home/laura/Part II Project/partIIProject/RNN/Preprocessing.cpp
+	<cstdio>
+	<iostream>
+	<fstream>
+	<string.h>
+	"Preprocessing.h"
 
