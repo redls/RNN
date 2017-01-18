@@ -32,6 +32,13 @@ void Tree::setRoot(Node x) {
     this->node = x;
 }
 
+void Tree::setRoot(vector<double> x) {
+    Node* n = new Node(x);
+    this->node = *n;
+    //cout<<"*/*/*/"<<this->node.getNode().size()<<endl;
+    cout<<"*/*/*/"<<this->node.getNode().size()<<endl;
+}
+
 void Tree::setScore(vector<double> s) {
     this->score = s;
 }
@@ -51,7 +58,7 @@ vector<double> Tree::getScore() {
 // Recursive method for printing a tree.
 void printTree(Tree* t) {
     if (t == nullptr) return;
-    cout<<"("<<endl;
+    cout<<"(";
     printTree(t->getLeftTree());
     vector<double> nodeRep = t->getRootRepresentation();
     cout<<"Root ";
@@ -60,7 +67,7 @@ void printTree(Tree* t) {
     }
     cout<<endl;
     printTree(t->getRightTree());
-     cout<<")"<<endl;
+     cout<<")";
 }
 
 

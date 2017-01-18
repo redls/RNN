@@ -17,6 +17,7 @@ class Tree {
         void setLeftTree(Tree *x);
         void setRightTree(Tree *x);
         void setRoot(Node x);
+        void setRoot(vector<double> t);
         void setScore(vector<double> s);
         Tree* getLeftTree();
         Tree* getRightTree();

@@ -3,6 +3,7 @@
 #include<string>
 #include<cstdio>
 #include<iostream>
+#include<fstream>
 using namespace std;
 
 /**
@@ -92,6 +93,7 @@ Tree* constructTreeForASentence(string sentence, vector<vector<double>> weights,
 }
 
 
+
 // Create a container of size 2 (number of classes) containing in both positions a specific value, d.
 vector<double> createTemporaryNodeRepresentation(int d) {
     vector<double> wordRep;
@@ -133,12 +135,12 @@ string assignRightLabels(Tree* t, vector<string> words, Dictionary* dictionary, 
         cout<<"I am null"<<endl;
         return "";
     }
+
     // The current node is a leaf, so we compute its score by searching the word in the sentiment labels map.
     if (t->getLeftTree() == nullptr && t->getRightTree() == nullptr) {
-    cout<<"*** "<< words[numberOfLeaves]<< numberOfLeaves<<endl;
         long long phraseIndex = dictionary->getPhraseIndex(words[numberOfLeaves]);
         double score = sentimentLabels->getSentimentScore(phraseIndex);
-        if (phraseIndex == -1) cout<<words[numberOfLeaves]<<" no found in the dictionary"<<endl;
+        if (phraseIndex == -1) cout<<words[numberOfLeaves]<<" no found in the dictionary."<<endl;
         if (score >= 0.5) {
             // case when the word is positive.
             vector<double> root = t->getRootRepresentation();
@@ -159,7 +161,7 @@ string assignRightLabels(Tree* t, vector<string> words, Dictionary* dictionary, 
     // The current node is an inner node, compute both left and right trees and then compute the value for the tree;
     string left = assignRightLabels(t->getLeftTree(), words, dictionary, sentimentLabels, numberOfLeaves);
     string right = assignRightLabels(t->getRightTree(), words, dictionary, sentimentLabels, numberOfLeaves);
-    string partialPhrase = left +" "+ right;
+    string partialPhrase = left + " " + right;
     long long phraseIndex = dictionary->getPhraseIndex(partialPhrase);
     if (phraseIndex == -1) cout<<partialPhrase<<" not found in the dictionary"<<endl;
     double score = sentimentLabels->getSentimentScore(phraseIndex);
@@ -179,26 +181,6 @@ string assignRightLabels(Tree* t, vector<string> words, Dictionary* dictionary, 
     return partialPhrase;
 }
 
-
-// Construct the tree which is represented my the given array, a.
-/*Tree* getParentPointerTree(int a[], int length, int index) {
-    Node* temp = new Node(createTemporaryNodeRepresentation(index));
-    Tree* parent = new Tree(*temp);
-    pair<int,int> children = findElementInArray(a, length,index);
-    if (children.first == -1 || children.second == -1) return parent;
-
-    //findFirstOccurenceOfElement(a, children.first, length) + 1 since the array should be indexed from 1.
-    int indexRootLeft = children.first + 1;
-    Tree* leftTree = getParentPointerTree(a, length, indexRootLeft);
-    parent->setLeftTree(leftTree);
-
-    //findFirstOccurenceOfElement(a, children.second, length) since the array should be indexed from 1.
-    int indexRootRight = children.second + 1;
-    Tree* rightTree = getParentPointerTree(a, length, indexRootRight);
-    parent->setRightTree(rightTree);
-
-    return parent;
-}*/
 
 // Update the given tree by merging the given branch to the tree.
 void updateTree(Tree* t, vector<int> branch) {
@@ -227,7 +209,7 @@ void updateTree(Tree* t, vector<int> branch) {
                     vector<double> rightChildRepresentation = rightChild->getRootRepresentation();
                     if (rightChildRepresentation[0] == value) {
                         temp = temp->getRightTree();
-                    } else cout<<" Error in the construction of the parse tree"<<endl;
+                    } else cout<<"Error in the construction of the parse tree."<<endl;
                 }
             }
         }
@@ -246,12 +228,10 @@ Tree* constructTree(int a[], int length, int numberOfLeaves) {
         int j = i;
         vector<int> tempList;
         while (j <= length) {
-            //if (a[j] == 0) break;
             tempList.push_back(j + 1);
             if (a[j] == 0) break;
             j = a[j] - 1;
         }
-        listOfBranches.push_back(tempList);
         updateTree(parent, tempList);
         //parent->inOrderTraversal();
     }
@@ -273,7 +253,7 @@ Tree* constructTargetTree(string treeText, string sentence, Dictionary* dictiona
     int number = 0;
     int k = 0;
     for (char & c: treeText) {
-        if (c != '|') number = number *10 + c - '0';
+        if (c != '|') number = number * 10 + c - '0';
         else {
             positions[k] = number;
             k++;
@@ -294,6 +274,7 @@ Tree* constructTargetTree(string treeText, string sentence, Dictionary* dictiona
     if (root->getLeftTree() == nullptr) cout<<"XOXO"<<endl;
     return root;
 }
+
 
 
 vector<vector<double>> backprop(Tree * targetTree, Tree * computedTree, vector<vector<double>> weightScoresMatrix, vector<vector<double>> weightsMatrix, vector<double> parentError) {
@@ -359,5 +340,113 @@ vector<vector<double>> backprop(Tree * targetTree, Tree * computedTree, vector<v
 }
 
 
+
+// Assign the labels of to the tree in a post-order way.
+void assignParsingTreeLabels(Tree* t, vector<string> words, Dictionary* dictionary, Vocabulary* vocab, int &numberOfLeaves,
+            vector<vector<double>> weightScoresMatrix, vector<vector<double>> weightsMatrix) {
+    if (t == nullptr) {
+        cout<<"I am null"<<endl;
+    }
+
+    // The current node is a leaf, so we compute its score by searching the word in the sentiment labels map.
+    if (t->getLeftTree() == nullptr && t->getRightTree() == nullptr) {
+        cout<<"*** "<< words[numberOfLeaves]<< numberOfLeaves<<endl;
+        vector<double> leafRepresentation = vocab->getWordRepresentation(words[numberOfLeaves]);
+        if (leafRepresentation.empty()) {
+            cout<<words[numberOfLeaves]<<" no found in the dictionary."<<endl;
+            vocab->addNewWord(words[numberOfLeaves]);
+            leafRepresentation = vocab->getWordRepresentation(words[numberOfLeaves]);
+        }
+        vector<double> root = leafRepresentation;
+
+        t->setRoot(root);
+        numberOfLeaves++;
+        return;
+    }
+    if (t->getLeftTree() != nullptr && t->getRightTree() == nullptr) {
+        cout<<"@@@@@@@@@@@@@@@@@@@@@@@@@@"<<endl;
+    }
+    // The current node is an inner node, compute both left and right trees and then compute the value for the tree;
+    if (t->getLeftTree() != nullptr && t->getRightTree() != nullptr) {
+    assignParsingTreeLabels(t->getLeftTree(), words, dictionary, vocab, numberOfLeaves, weightScoresMatrix, weightsMatrix);
+    cout<<"^^^Left"<<t->getLeftTree()->getRootRepresentation().size()<<endl;
+    assignParsingTreeLabels(t->getRightTree(), words, dictionary, vocab, numberOfLeaves, weightScoresMatrix, weightsMatrix);
+    cout<<"^^^Right"<<t->getRightTree()->getRootRepresentation().size()<<endl;
+    vector<double> concatenation = concatenateTwoVectors(t->getLeftTree()->getRootRepresentation(),
+                    t->getRightTree()->getRootRepresentation());
+    if (concatenation.size() !=50) {
+        cout<<"^^^^"<<endl;
+        printElementsOfVector(t->getLeftTree()->getRootRepresentation());
+        printElementsOfVector(t->getRightTree()->getRootRepresentation());
+    }
+    vector<double> product = matrixMultplicationWithVector(weightsMatrix, concatenation);
+    vector<double> afterTanh = applyTanhElementWise(product);
+    t->setScore(softmax(matrixMultplicationWithVector(weightScoresMatrix, afterTanh)));
+    t->setRoot(afterTanh);
+    cout<<"###"<<afterTanh.size()<<endl;
+   // cout<<"###"<<t->getRightTree()->getRootRepresentation().size()<<endl;
+    }
+}
+
+// Read from the PreprocessedDatasetSentences.txt. Map each tree representation with its line position in the file.
+unordered_map<long long, string> readParsedTrees() {
+    ifstream input("PreprocessedDatasetSentences.txt");
+    string line;
+    unordered_map<long long, string> result;
+    long long counter = 0;
+     while(getline(input, line)) {
+         counter++;
+         result.insert(make_pair(counter, line));
+    }
+    return result;
+}
+
+void checkVectorRepresentationHaveSize25(Tree* t) {
+    if (t == nullptr) return;
+    if (t->getRootRepresentation().size() != 25) cout<<"!!!!!!!! "<<t->getRootRepresentation().size();
+    checkVectorRepresentationHaveSize25(t->getLeftTree());
+    checkVectorRepresentationHaveSize25(t->getRightTree());
+}
+
+// Use the parsing tring in the forward propogation.
+Tree* useParserForCreatingTheTree(string treeText, string sentence, Dictionary* dictionary, Vocabulary* vocab,
+    vector<vector<double>> weightScoresMatrix, vector<vector<double>> weightsMatrix) {
+    vector<string> words = getWordsFromSentence(sentence);
+    cout<<"()()()()"<<sentence<<endl;
+    // Find the number of nodes in the tree and also retrieve the positions from treeText.
+    int numberOfNodes = 0;
+    for (char & c: treeText) {
+        if (c == '|') numberOfNodes++;
+    }
+    numberOfNodes++;
+    int positions[numberOfNodes] ;
+    int number = 0;
+    int k = 0;
+    for (char & c: treeText) {
+        if (c != '|') number = number * 10 + c - '0';
+        else {
+            positions[k] = number;
+            k++;
+            number = 0;
+        }
+    }
+
+    positions[k] = number; // add the last int in the array.
+
+    // Create tree by using temporary values for the inner nodes. Start by finding the root (0) in the array.
+    int indexRoot = findFirstOccurenceOfElement(positions, 0, numberOfNodes);
+    // Increase the index of the root by one since the array should be indexed from 1.
+    indexRoot++;
+    if (2 * words.size() - 1 == indexRoot) {
+    Tree* root = constructTree(positions, numberOfNodes, words.size());
+    int nr = 0;
+    root->inOrderTraversal();
+    assignParsingTreeLabels(root, words, dictionary, vocab, nr, weightScoresMatrix, weightsMatrix);
+    if (root->getLeftTree() == nullptr) cout<<"XOXO"<<endl;
+
+    checkVectorRepresentationHaveSize25(root);
+    return root;
+    } else return constructTreeForASentence(sentence, weightsMatrix, weightScoresMatrix, vocab);
+}
 
 

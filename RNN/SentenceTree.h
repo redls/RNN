@@ -2,6 +2,7 @@
 #include "Dictionary.h"
 #include "SentimentLabels.h"
 #include<string>
+#include<unordered_map>
 using namespace std;
 
 /**
@@ -18,3 +19,12 @@ Tree* constructTargetTree(string treeText, string sentence, Dictionary* dictiona
 
 
 vector<vector<double>> backprop(Tree * targetTree, Tree * computedTree, vector<vector<double>> weightScoresMatrix, vector<vector<double>> weightsMatrix, vector<double> parentError);
+
+
+// Read from the PreprocessedDatasetSentences.txt.
+unordered_map<long long, string> readParsedTrees();
+
+// Use the parsing tring in the forward propogation.
+Tree* useParserForCreatingTheTree(string treeText, string sentence, Dictionary* dictionary, Vocabulary* vocab,
+    vector<vector<double>> weightScoresMatrix, vector<vector<double>> weightsMatrix);
+
