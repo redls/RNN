@@ -70,12 +70,13 @@ void trainNaiveBayes() {
                     is_positive = false;
                 }
                 string word = "";
-                for(char &c: sentence) {
+                string sentenceModified = sentence + " ";
+                for(char &c: sentenceModified) {
                     if (c == ' ') {
                         nr++;
                         outputFile<<word<<" ***"<<is_positive<<endl;
                         updateFrequencyOfWord(is_positive, word);
-                        word = "";
+                        word.clear();
                     } else {
                         char aux = tolower(c);
                         word = word + aux;
@@ -86,7 +87,7 @@ void trainNaiveBayes() {
         cout<<"The given phrase was not found in the dictionary."<<endl;
         }
     }
-    cout<<nr<<endl;
+   // cout<<nr<<endl;
 }
 
 
@@ -128,7 +129,8 @@ void testNaiveBayes() {
         string sentence = it->first;
         long long index = it->second;
         string word = "";
-        for(char & c : sentence) {
+        string sentenceModified = sentence + " ";
+        for(char & c : sentenceModified) {
             if (c == ' ') {
                 unordered_map<string, long long>::const_iterator found_iter = positiveWordsMap.find(word);
                 if (found_iter != positiveWordsMap.end()) {
@@ -142,33 +144,20 @@ void testNaiveBayes() {
                 } else {
                     number_of_negatives += 1;
                 }
-                outputFile<<"Number of negative appearences for the word "<<word<<": "<<number_of_negatives<<endl;
-                outputFile<<"Number of positive appearences for the word "<<word<<": "<<number_of_positives<<endl;
-                outputFile<<"Product3 of positive appearences for the word: "<<product_of_positives<<endl;
-                outputFile<<"Product3 of negative appearences for the word: "<<product_of_negative<<endl;
-                product_of_negative = product_of_negative * number_of_negatives/total_negatives;
-                product_of_positives = product_of_positives * number_of_positives/total_positives;
-                outputFile<<"Product2 of positive appearences for the word: "<<product_of_positives<<endl;
-                outputFile<<"Product2 of negative appearences for the word: "<<product_of_negative<<endl;
-                outputFile<<"Product4 of positive appearences for the word: "<<total_positives<<endl;
-                outputFile<<"Product4 of negative appearences for the word: "<<total_negatives<<endl;
+                //product_of_negative = product_of_negative * number_of_negatives/total_negatives;
+                //product_of_positives = product_of_positives * number_of_positives/total_positives;
+                product_of_negative = product_of_negative + log(number_of_negatives/total_negatives);
+                product_of_positives = product_of_positives + log(number_of_positives/total_positives);
                 word = "";
             } else {
-                word = word + c;
-                //char aux = tolower(c);
-                //word = word + aux;
+               // word = word + c;
+               char aux = tolower(c);
+               word = word + aux;
             }
         }
-        outputFile<<"Product of positive appearences for the word: "<<product_of_positives<<endl;
-        outputFile<<"Product of negative appearences for the word: "<<product_of_negative<<endl;
-        outputFile<<"Number of positive appearences for the word "<<word<<": "<<number_of_positives<<endl;
-        outputFile<<"Number of negative appearences for the word "<<word<<": "<<number_of_negatives<<endl;
-        product_of_negative = product_of_negative * number_of_negatives/total_negatives;
-        product_of_positives = product_of_positives * number_of_positives/total_positives;
-        double final_positive_prob = positiveSentences * product_of_positives;
-        double final_negative_prob = negativeSentences * product_of_negative;
-        outputFile<<"Sentence: "<<sentence<<" has positive probability "<<final_positive_prob<<endl;
-        outputFile<<"Sentence: "<<sentence<<" has negative probability "<<final_negative_prob<<endl;
+
+        double final_positive_prob = log(positiveSentences) + product_of_positives;
+        double final_negative_prob = log(negativeSentences) + product_of_negative;
         if (final_negative_prob > final_positive_prob) {
            outputResult<<it->first<<" "<<"negative "<<final_negative_prob<<" "<<final_positive_prob<<endl;
            if (sentimentLabels->getSentimentScore(index) < 0.5) correctPrediction++;

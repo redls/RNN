@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1484352231 source:/home/laura/Part II Project/partIIProject/NaiveBayes/Dictionary.cpp
+1485973970 source:/home/laura/Part II Project/partIIProject/NaiveBayes/Dictionary.cpp
 	"Dictionary.h"
 	<iostream>
 	<fstream>
@@ -10,12 +10,13 @@
 	<unordered_map>
 	<cstdio>
 
-1484351614 source:/home/laura/Part II Project/partIIProject/NaiveBayes/main.cpp
+1485986346 source:/home/laura/Part II Project/partIIProject/NaiveBayes/main.cpp
 	<iostream>
 	<fstream>
 	<cstdio>
 	<string.h>
 	<math.h>
+	<ctype.h>
 	"Dictionary.h"
 	"DatasetSentences.h"
 	"SentimentLabels.h"
