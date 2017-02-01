@@ -11,6 +11,9 @@ using namespace std;
 Node::Node() {
 }
 
+Node::~Node() {
+}
+
 Node::Node(vector<double> newWord) {
     for(int i = 0; i<newWord.size();i++) {
         wordRepresentation.push_back(newWord[i]);

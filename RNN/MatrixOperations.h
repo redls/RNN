@@ -1,4 +1,6 @@
 #include<cstdio>
+#include<iostream>
+#include <fstream>
 #include<vector>
 #include<math.h>
 
@@ -70,6 +72,15 @@ vector<double> getZeros(int d);
 // Print the elements in a vector container.
 void printElementsOfVector(vector<double> vec);
 
+// Print the elements in a vector container.
+void printElementsOfVector(vector<double> vec, ofstream f);
+
+// Print the elements of a given matrix.
+void printElementsOfMatrix(vector<vector<double>> matrix);
+
+// Print the elements of a given matrix.
+void printElementsOfMatrix(vector<vector<double>> matrix, ofstream f);
+
 // Transpose a row vector. Return a matrix representing the column vector.
 vector<vector<double>> transposeRowVector(vector<double> vec);
 
@@ -81,3 +92,12 @@ vector<vector<double>> multiplyMatrices(vector<vector<double>> matrix, vector<do
 
 // Multiply matrix by scalar.
 vector<vector<double>> multiplyMatrixByScalar(vector<vector<double>> matrix, double scalar);
+
+// Create an empty Sentiment Weight matrix of dimension 2 x 25.S
+vector<vector<double>> getEmptySentimentWeightMatrix();
+
+// Find the maximum number in a vector.
+double findMaxNumberInVector(vector<double> vec);
+
+// Find the minimum number in a vector.
+double findMinNumberInVector(vector<double> vec);

@@ -2,7 +2,10 @@
 #include <random>
 #include <fstream>
 #include <iostream>
+#include <stdlib.h>
+#include<string>
 #include "ParseASentence.h"
+#include "MatrixOperations.h"
 using namespace std;
 
 bool Vocabulary::containsWord(string word) {
@@ -50,6 +53,7 @@ Vocabulary::Vocabulary() {
                     }
         word.clear();
     }
+
 }
 
 vector<double> Vocabulary::getWordRepresentation(string word) {
@@ -66,4 +70,43 @@ void Vocabulary::addNewWord(string word) {
     vector<double> vec = createRandomDistributions(25);
     vocabulary.insert(make_pair(word, vec));
     return;
+}
+
+void Vocabulary::updateWordRepresentation(string word, vector<double> newRep, double learningRate){
+    if (newRep.size() != 25) {
+        cout<<" The new representation of the word vector does not have the same dimesions."<<endl;
+        return;
+    }
+    for(int i = 0; i < newRep.size(); i++) {
+        newRep[i] = newRep[i] * learningRate;
+    }
+  /*  cout<<"updating for the word: \n"<<word<<endl;
+    cout<<"Word representation \n"<<endl;
+    printElementsOfVector(vocabulary[word]);
+    cout<<"Error representation"<< learningRate<<endl;
+    printElementsOfVector(newRep);
+    vocabulary[word] = substractTwoVectors(vocabulary[word], newRep);
+    cout<<"updated word: \n"<<endl;
+    printElementsOfVector(vocabulary[word]);*/
+    vocabulary[word] = substractTwoVectors(vocabulary[word], newRep);
+}
+
+
+void Vocabulary::updateWordRepresentation(string word, vector<double> newRep, double learningRate, double regresionParam){
+    if (newRep.size() != 25) {
+        cout<<" The new representation of the word vector does not have the same dimesions."<<endl;
+        return;
+    }
+    for(int i = 0; i < newRep.size(); i++) {
+        newRep[i] = (newRep[i] + regresionParam * newRep[i]) * learningRate;
+    }
+  /*  cout<<"updating for the word: \n"<<word<<endl;
+    cout<<"Word representation \n"<<endl;
+    printElementsOfVector(vocabulary[word]);
+    cout<<"Error representation"<< learningRate<<endl;
+    printElementsOfVector(newRep);
+    vocabulary[word] = substractTwoVectors(vocabulary[word], newRep);
+    cout<<"updated word: \n"<<endl;
+    printElementsOfVector(vocabulary[word]);*/
+    vocabulary[word] = substractTwoVectors(vocabulary[word], newRep);
 }

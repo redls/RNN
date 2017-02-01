@@ -1,6 +1,7 @@
 #include "ParseASentence.h"
 #include "Dictionary.h"
 #include "SentimentLabels.h"
+#include "RNNParam.h"
 #include<string>
 #include<unordered_map>
 using namespace std;
@@ -18,7 +19,8 @@ Tree* constructTreeForASentence(string sentence, vector<vector<double>> weights,
 Tree* constructTargetTree(string treeText, string sentence, Dictionary* dictionary, SentimentLabels* sentimentLabels);
 
 
-vector<vector<double>> backprop(Tree * targetTree, Tree * computedTree, vector<vector<double>> weightScoresMatrix, vector<vector<double>> weightsMatrix, vector<double> parentError);
+RNNParam* backprop(Tree * targetTree, Tree * computedTree, vector<vector<double>>
+            weightScoresMatrix, vector<vector<double>> weightsMatrix, vector<double> parentError, Vocabulary* vocab);
 
 
 // Read from the PreprocessedDatasetSentences.txt.
@@ -28,3 +30,5 @@ unordered_map<long long, string> readParsedTrees();
 Tree* useParserForCreatingTheTree(string treeText, string sentence, Dictionary* dictionary, Vocabulary* vocab,
     vector<vector<double>> weightScoresMatrix, vector<vector<double>> weightsMatrix);
 
+// Compute Sentiment Matrix partial derivative.
+//vector<vector<double>> computeSentimentMatrixPartialDerivative(Tree* targetTree, Tree* computedTree);

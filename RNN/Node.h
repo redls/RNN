@@ -12,6 +12,7 @@ class Node {
 
    public:
     Node();
+    ~Node();
     Node(vector<double> newWord);
     vector<double> getNode();
 };

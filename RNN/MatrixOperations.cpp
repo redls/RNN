@@ -1,8 +1,40 @@
 #include<cstdio>
 #include<iostream>
+#include<iomanip>
 #include "MatrixOperations.h"
 
 using namespace std;
+
+#define EPSILON 0.000000000001
+
+// Find the maximum number in a vector.
+double findMaxNumberInVector(vector<double> vec) {
+    if (vec.size() == 0) {
+        cout<<"The given vector has no elements which can be max."<<endl;
+        return 0;
+    }
+
+    double m = vec[0];
+    for(int i = 1; i < vec.size();i++) {
+        if (EPSILON < vec[i] - m) m = vec[i];
+    }
+    return m;
+}
+
+// Find the minimum number in a vector.
+double findMinNumberInVector(vector<double> vec) {
+    if (vec.size() == 0) {
+        cout<<"The given vector has no elements which can be min."<<endl;
+        return 0;
+    }
+
+    double m = vec[0];
+    for(int i = 1; i < vec.size();i++) {
+        if (EPSILON > vec[i] - m) m = vec[i];
+    }
+    return m;
+}
+
 
 // Checks the dimensions of the matrix and of the vector to see if they can be multiplied.
 bool checkMatrixMultiplicationWithVector(vector<vector<double>> matrix, vector<double> vec) {
@@ -19,8 +51,8 @@ bool checkMatrixMultiplicationWithVector(vector<vector<double>> matrix, vector<d
 vector<double> matrixMultplicationWithVector(vector<vector<double>> matrix, vector<double> vec) {
     vector<double> result;
     if (!checkMatrixMultiplicationWithVector(matrix, vec))  {
-        perror("The matrix multiplication with the vector could not be computed. The 2 given inputs cannot be multiplied.");
-        //return result;
+        cout<<"The matrix multiplication with the vector could not be computed. The 2 given inputs cannot be multiplied."<<endl;
+        exit(0);
     }
     int n = matrix.size(); // number of lines
     int m = matrix[0].size(); // number of columns
@@ -33,7 +65,6 @@ vector<double> matrixMultplicationWithVector(vector<vector<double>> matrix, vect
             s = s + matrix[i][j] * vec[j];
         }
         result.push_back(s);
-        s = 0;
     }
     return result;
 }
@@ -54,6 +85,11 @@ vector<double> concatenateTwoVectors(vector<double> vec1, vector<double> vec2) {
 vector<double> applyTanhElementWise(vector<double> vec) {
     vector<double> result;
      for (int i = 0; i < vec.size(); i++) {
+     if (isnan(tanh(vec[i]))) {
+        printElementsOfVector(vec);
+        cout<<" Found nan"<<endl;
+        exit(0);
+     }
         result.push_back(tanh(vec[i]));
     }
     return result;
@@ -109,7 +145,8 @@ bool checkIfTwoMatricesHaveTheSameDimesions(vector<vector<double>> matrix1, vect
 vector<vector<double>> getMatrixHadamardProduct(vector<vector<double>> matrix1, vector<vector<double>> matrix2) {
     vector<vector<double>> result;
     if (!checkIfTwoMatricesHaveTheSameDimesions(matrix1, matrix2)) {
-        perror("The 2 matrices don't have the same dimesions. Cannot obtain their Hadamard product.");
+        cout<<"The 2 matrices don't have the same dimesions. Cannot obtain their Hadamard product."<<endl;
+        exit(0);
     }
     int numberOfColumns = matrix1[0].size();
     int numberOfLines = matrix1.size();
@@ -139,16 +176,52 @@ vector<double> getVectorHadamardProduct(vector<double> vect1, vector<double> vec
 }
 
 
+long long findPower(double x) {
+    long long prod = 1;
+    long long counter = 0;
+    if (x < 0) x = x *(-1);
+    while(x < 1) {
+        x *= 10;
+        prod *= 10;
+        counter++;
+    }
+    return counter;
+}
+
 // Compute the softmax of a vector container.
 vector<double> softmax(vector<double> vec) {
     double sum = 0;
     double temp;
+    double maximum = findMaxNumberInVector(vec);
+
+    long long prod = 1;
+    long long aux = 0;
+    //long long counterFirst = findPower(vec[0]);
+    //long long counterSecond = findPower(vec[1]);
+    //aux = (counterFirst + counterSecond)/2;
+  /*  while (aux > 0) {
+        prod *= 10;
+        aux -= 1;
+    }*/
+    //printElementsOfVector(vec);
     for (int i = 0; i < vec.size(); i++) {
+        vec[i] = vec[i] - maximum;
+       // vec[i] = vec[i] + 0.000000099999;
         sum = sum + exp(vec[i]);
     }
+    //cout<<sum<<endl;
+   // sum = log(sum);
+    //printElementsOfVector(vec);
+    if (sum == 0) {
+        cout<<"The sum computed for softmax is zero."<<endl;
+        exit(0);
+    }
+    //cout<<"**&&**"<<setprecision(10)<<sum<<" ";
+    //printElementsOfVector(vec);
     vector<double> result;
     for (int i = 0; i < vec.size(); i++) {
         temp = exp(vec[i]) / sum;
+        //temp = vec[i]  - maximum - sum;
         result.push_back(temp);
     }
     return result;
@@ -161,6 +234,10 @@ vector<double> softmax(vector<double> vec) {
  */
 vector<double> substractTwoVectors(vector<double> firstVector, vector<double> secondVector) {
     vector<double> result;
+    if (firstVector.size() != secondVector.size()) {
+        cout<<"Couldn't subtract the 2 given vectors. They have different dimensions"<<endl;
+        exit(0);
+    }
     double difference;
     for (int i = 0; i < firstVector.size(); i++) {
         difference = firstVector[i] - secondVector[i];
@@ -175,6 +252,10 @@ vector<double> substractTwoVectors(vector<double> firstVector, vector<double> se
  */
 vector<double> addTwoVectors(vector<double> firstVector, vector<double> secondVector) {
     vector<double> result;
+    if (firstVector.size() != secondVector.size()) {
+        cout<<"Couldn't add the 2 given vectors. They have different dimensions"<<endl;
+        exit(0);
+    }
     double addition;
     for (int i = 0; i < firstVector.size(); i++) {
         addition = firstVector[i] + secondVector[i];
@@ -217,6 +298,35 @@ void printElementsOfVector(vector<double> vec) {
     cout<<endl;
 }
 
+// Print the elements in a vector container.
+void printElementsOfVector(vector<double> vec, ofstream f) {
+    for(int i = 0; i < vec.size(); i++) {
+    f<<vec[i]<<" ; ";
+    }
+    f<<endl;
+}
+
+
+// Print the elements of a given matrix.
+void printElementsOfMatrix(vector<vector<double>> matrix) {
+    for(int i = 0; i < matrix.size(); i++) {
+        for(int j = 0; j < matrix[0].size(); j++) {
+            cout<<" "<<matrix[i][j];
+        }
+        cout<<endl;
+    }
+}
+
+// Print the elements of a given matrix.
+void printElementsOfMatrix(vector<vector<double>> matrix, ofstream f) {
+    for(int i = 0; i < matrix.size(); i++) {
+        for(int j = 0; j < matrix[0].size(); j++) {
+            f<<" "<<matrix[i][j];
+        }
+        f<<endl;
+    }
+}
+
 
 // Looks at the dimensions of the two matrices and checks if the dimensions are equal.
 bool checkMatricesHaveSameDimenesions(vector<vector<double>> firstMatrice, vector<vector<double>> secondMatrice) {
@@ -236,6 +346,10 @@ bool checkMatricesHaveSameDimenesions(vector<vector<double>> firstMatrice, vecto
  */
 vector<vector<double>> addTwoMatrices(vector<vector<double>> firstMatrice, vector<vector<double>> secondMatrice) {
     vector<vector<double>> result;
+    if (firstMatrice.size() != secondMatrice.size() || firstMatrice[0].size() != secondMatrice[0].size()) {
+        cout<< "The 2 given matrices cannot be added together because they don't have the same dimensions."<<endl;
+        exit(0);
+    }
     for(int i = 0; i < firstMatrice.size(); i++) {
         vector<double> temp;
         for(int j = 0; j < firstMatrice[0].size(); j++) {
@@ -252,6 +366,11 @@ vector<vector<double>> addTwoMatrices(vector<vector<double>> firstMatrice, vecto
  */
 vector<vector<double>> subtractTwoMatrices(vector<vector<double>> firstMatrice, vector<vector<double>> secondMatrice) {
     vector<vector<double>> result;
+    if (firstMatrice.size() != secondMatrice.size() || firstMatrice[0].size() != secondMatrice[0].size()) {
+        cout<< "The 2 given matrices cannot be added together because they don't have the same dimensions."<<endl;
+        exit(0);
+    }
+
     for(int i = 0; i < firstMatrice.size(); i++) {
         vector<double> temp;
         for(int j = 0; j < firstMatrice[0].size(); j++) {
@@ -312,5 +431,17 @@ vector<vector<double>> multiplyMatrices(vector<vector<double>> matrix, vector<do
         }
         result.push_back(temp);
     }
+    return result;
+}
+
+// Craete an empty Sentiment Weight matrix of dimension 2 x 25.S
+vector<vector<double>> getEmptySentimentWeightMatrix() {
+    vector<vector<double>> result;
+    vector<double> temp;
+    for(int i = 0; i < 25; i++) {
+        temp.push_back(0);
+    }
+    result.push_back(temp);
+    result.push_back(temp);
     return result;
 }

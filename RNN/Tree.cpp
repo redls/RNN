@@ -9,6 +9,12 @@ Tree::Tree(Node x) {
     left = nullptr;
     right = nullptr;
     node = Node(x.getNode());
+    word = "";
+}
+
+Tree::~Tree() {
+    delete(left);
+    delete(right);
 }
 
 void Tree::addNewNodeToTree(Node x) {
@@ -35,12 +41,14 @@ void Tree::setRoot(Node x) {
 void Tree::setRoot(vector<double> x) {
     Node* n = new Node(x);
     this->node = *n;
-    //cout<<"*/*/*/"<<this->node.getNode().size()<<endl;
-    cout<<"*/*/*/"<<this->node.getNode().size()<<endl;
 }
 
 void Tree::setScore(vector<double> s) {
     this->score = s;
+}
+
+void Tree::setWord(string x) {
+    this->word = x;
 }
 
 Tree* Tree::getLeftTree() {
@@ -53,6 +61,10 @@ Tree* Tree::getRightTree() {
 
 vector<double> Tree::getScore() {
     return this->score;
+}
+
+string Tree::getWord() {
+    return this->word;
 }
 
 // Recursive method for printing a tree.
