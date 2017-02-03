@@ -129,12 +129,12 @@ void trainRNN() {
             partialWeightsReg = multiplyMatrixByScalar(weights, regularizationParam);
             partialWeightsReg = addTwoMatrices(minibarchRNNParam->getWeightsMatrix(), partialWeightsReg);
           //  weights = subtractTwoMatrices(weights, multiplyMatrixByScalar(result->getWeightsMatrix(), learningRate));
-            weights = subtractTwoMatrices(weights, multiplyMatrixByScalar(partialWeightsReg, learningRate));
+            weights = subtractTwoMatrices(weights, multiplyMatrixByScalar(partialWeightsReg, learningRate / 25));
 
             partialSentimentWeightsReg = multiplyMatrixByScalar(sentimentMatrix, regularizationParam / 10);
             partialSentimentWeightsReg = addTwoMatrices(minibarchRNNParam->getSentimentWeightsMatrix(), partialSentimentWeightsReg);
             //sentimentMatrix = subtractTwoMatrices(sentimentMatrix, multiplyMatrixByScalar(result->getSentimentWeightsMatrix(), learningRate));
-            sentimentMatrix = subtractTwoMatrices(sentimentMatrix, multiplyMatrixByScalar(partialSentimentWeightsReg, learningRate));
+            sentimentMatrix = subtractTwoMatrices(sentimentMatrix, multiplyMatrixByScalar(partialSentimentWeightsReg, learningRate / 25));
             minibarchRNNParam->resetFields();
         }
 
