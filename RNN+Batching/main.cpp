@@ -9,6 +9,7 @@
 #include "MatrixOperations.h"
 #include "SentenceTree.h"
 #include "Preprocessing.h"
+//#include "koolplot.h"
 
 #define EPSILON 0.000000000001
 
@@ -17,8 +18,8 @@ using namespace std;
 
 //double learningRate = 0.001;
 //double learningRate = 0.0001;
-double learningRate = 0.0007;
-double regularizationParam = 5;
+double learningRate = 0.001;
+double regularizationParam = 1.5;
 
  ofstream rnnDebug("rnnDebug.txt");
  ofstream accuracyImprovement("accuracyImprovement.txt");
@@ -129,7 +130,7 @@ void trainRNN() {
             partialWeightsReg = multiplyMatrixByScalar(weights, regularizationParam);
             partialWeightsReg = addTwoMatrices(minibarchRNNParam->getWeightsMatrix(), partialWeightsReg);
           //  weights = subtractTwoMatrices(weights, multiplyMatrixByScalar(result->getWeightsMatrix(), learningRate));
-            weights = subtractTwoMatrices(weights, multiplyMatrixByScalar(partialWeightsReg, learningRate / 25));
+            weights = subtractTwoMatrices(weights, multiplyMatrixByScalar(partialWeightsReg,learningRate / 25));
 
             partialSentimentWeightsReg = multiplyMatrixByScalar(sentimentMatrix, regularizationParam / 10);
             partialSentimentWeightsReg = addTwoMatrices(minibarchRNNParam->getSentimentWeightsMatrix(), partialSentimentWeightsReg);
@@ -161,12 +162,12 @@ void trainRNN() {
     partialWeightsReg = multiplyMatrixByScalar(weights, regularizationParam);
     partialWeightsReg = addTwoMatrices(minibarchRNNParam->getWeightsMatrix(), partialWeightsReg);
           //  weights = subtractTwoMatrices(weights, multiplyMatrixByScalar(result->getWeightsMatrix(), learningRate));
-            weights = subtractTwoMatrices(weights, multiplyMatrixByScalar(partialWeightsReg, learningRate / 25));
+            weights = subtractTwoMatrices(weights, multiplyMatrixByScalar(partialWeightsReg, learningRate));
 
             partialSentimentWeightsReg = multiplyMatrixByScalar(sentimentMatrix, regularizationParam / 10);
             partialSentimentWeightsReg = addTwoMatrices(minibarchRNNParam->getSentimentWeightsMatrix(), partialSentimentWeightsReg);
             //sentimentMatrix = subtractTwoMatrices(sentimentMatrix, multiplyMatrixByScalar(result->getSentimentWeightsMatrix(), learningRate));
-            sentimentMatrix = subtractTwoMatrices(sentimentMatrix, multiplyMatrixByScalar(partialSentimentWeightsReg, learningRate / 25));
+            sentimentMatrix = subtractTwoMatrices(sentimentMatrix, multiplyMatrixByScalar(partialSentimentWeightsReg, learningRate));
 
     accuracyImprovement<<"Correct predicted while training: "<<correctPrediction<<" out of: "<<counter <<endl<<endl;
 
@@ -228,8 +229,6 @@ void validateSentences() {
         long long index = it->second;
         long long indexInDictionary = dictionary->getPhraseIndex(sentence);
         parsedTreesByMeRepresentation = treesParsedByMe[index];
-        //cout<<parsedTreesByMeRepresentation<<endl;
-        //Tree* parsedTree = constructTreeForASentence(sentence, weights, sentimentMatrix, vocab);
         Tree* parsedTree = useParserForCreatingTheTree(parsedTreesByMeRepresentation, sentence, dictionary, vocab, sentimentMatrix, weights);
         vector<double> finalScore = parsedTree->getScore();
        // printElementsOfVector(parsedTree->getScore());

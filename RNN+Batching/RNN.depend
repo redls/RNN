@@ -1,10 +1,11 @@
 # depslib dependency file v1.0
-1486002813 source:/home/laura/Part II Project/partIIProject/RNN/main.cpp
+1486050301 source:/home/laura/Part II Project/partIIProject/RNN/main.cpp
 	<iostream>
 	<fstream>
 	<utility>
 	<iomanip>
 	"DatasetSentences.h"
+	"DevsetSentences.h"
 	"DatasetSentenceTrees.h"
 	"TestsetSentences.h"
 	"MatrixOperations.h"
