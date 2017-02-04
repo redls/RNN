@@ -1,0 +1,37 @@
+#include <cstdio>
+#include<vector>
+#include </home/laura/cpptest-1.1.2/src/cpptest.h>
+#include "MatrixOperationsTest.h"
+#include "../RNN/MatrixOperations.h"
+using namespace std;
+
+
+void MatrixOperationsTest::test_matrix_multplication_with_vector() {
+	vector<double> vec;
+	vector<vector<double>> matrix;
+	for (int i = 1; i < 4; i++) {
+		vec.push_back(i);
+	}
+	vector<double> aux;
+	for (int i = 1; i < 4; i++) {
+		for (int j = 1; j < 4; j++) {
+			aux.push_back(i*j);
+		}
+		matrix.push_back(aux);
+		aux.clear();
+	}
+	aux.clear();
+	aux.push_back(14);
+	aux.push_back(28);
+	aux.push_back(42);
+	vector<double> result = matrixMultplicationWithVector(matrix, vec);
+	if (result.size() != aux.size()) {
+		cout<<"Multiplication between matrix and vector failed."<<endl;
+		exit(0);
+	}
+	for (int i = 1; i < 4; i++) {
+	 TEST_ASSERT(result[i - 1] == aux[i - 1]);
+	}
+	
+}
+

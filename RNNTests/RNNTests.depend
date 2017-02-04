@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1485536088 source:/home/laura/Part II Project/partIIProject/RNNTests/main.cpp
+	<iostream>
+	"MatrixOperationsTest.h"
+	</home/laura/cpptest-1.1.2/src/cpptest.h>
+
+1485519602 /home/laura/Part II Project/partIIProject/RNNTests/MatrixOperationsTest.h
+	<stdio.h>
+	</home/laura/cpptest-1.1.2/src/cpptest.h>
+

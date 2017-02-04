@@ -1,0 +1,14 @@
+#include <stdio.h>
+#include </home/laura/cpptest-1.1.2/src/cpptest.h>
+using namespace std;
+
+class MatrixOperationsTest : public Test::Suite {
+    public:
+        MatrixOperationsTest() {
+            TEST_ADD(MatrixOperationsTest::test_matrix_multplication_with_vector);
+	    TEST_ADD(MatrixOperationsTest::test_concatenate_two_vectors);
+        }
+    private:
+        void test_matrix_multplication_with_vector();
+	void test_concatenate_two_vectors();
+};
