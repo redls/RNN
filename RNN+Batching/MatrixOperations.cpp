@@ -98,6 +98,10 @@ vector<double> applyTanhElementWise(vector<double> vec) {
 // Perform inner product of the 2 vectors and return the result back.
 double vectorInnerProduct(vector<double> vec1, vector<double> vec2) {
     double result;
+    if (vec1.size() != vec2.size()) {
+        cout<<"The given vectors have different dimensions and could not perform inner product on them."<<endl;
+        exit(0);
+    }
     for (int i = 0; i < vec1.size(); i++) {
         result = result + vec1[i]*vec2[i];
     }
@@ -133,10 +137,11 @@ bool checkIfTwoMatricesHaveTheSameDimesions(vector<vector<double>> matrix1, vect
     int l2 = matrix2.size();
     if (l1 != l2) return false;
     if (l1 > 0) {
-        int c1 = matrix1.size();
-        int c2 = matrix2.size();
-        if (c1 != c2) return false;
-        else return true;
+        for(int i = 0; i < l1; i++) {
+            int c1 = matrix1[i].size();
+            int c2 = matrix2[i].size();
+            if (c1 != c2) return false;
+        }
     }
     return true;
 }
@@ -196,32 +201,21 @@ vector<double> softmax(vector<double> vec) {
 
     long long prod = 1;
     long long aux = 0;
-    //long long counterFirst = findPower(vec[0]);
-    //long long counterSecond = findPower(vec[1]);
-    //aux = (counterFirst + counterSecond)/2;
-  /*  while (aux > 0) {
-        prod *= 10;
-        aux -= 1;
-    }*/
-    //printElementsOfVector(vec);
+
     for (int i = 0; i < vec.size(); i++) {
         vec[i] = vec[i] - maximum;
        // vec[i] = vec[i] + 0.000000099999;
         sum = sum + exp(vec[i]);
     }
-    //cout<<sum<<endl;
-   // sum = log(sum);
-    //printElementsOfVector(vec);
+
     if (sum == 0) {
         cout<<"The sum computed for softmax is zero."<<endl;
         exit(0);
     }
-    //cout<<"**&&**"<<setprecision(10)<<sum<<" ";
-    //printElementsOfVector(vec);
+
     vector<double> result;
     for (int i = 0; i < vec.size(); i++) {
         temp = exp(vec[i]) / sum;
-        //temp = vec[i]  - maximum - sum;
         result.push_back(temp);
     }
     return result;
